@@ -5,6 +5,7 @@ import matplotlib.pyplot as pl
 import os, git
 
 from pypet import Environment, Trajectory
+import pypet.pypetexceptions as pex
 from pypet.brian2.network import NetworkManager
 from pypet.brian2.parameter import Brian2Parameter, \
                                    Brian2MonitorResult
@@ -24,9 +25,17 @@ args = parser.parse_args()
 ncores = int(args.ncores[0])
 print("Using {:d} cores".format(ncores))
 
-# get info on git repository
-repo = git.Repo('./code/')
+
+# check the state of the git repository
+repo = git.Repo('../')
+
+# check for changes, while ignoring submodules
+if repo.git.status('-s', '--ignore-submodules'):
+    raise pex.GitDiffError('Found not committed changes!')
+
 commit = repo.commit(None)
+
+
 
 filename = os.path.join('data', name+'_'+str(commit)[:6]+'.hdf5')
 
@@ -44,7 +53,7 @@ env = Environment(trajectory=label,
                   wrap_mode='QUEUE', # ??
                   overwrite_file=False, # ??
                   git_repository='./code/',
-                  git_fail = True)
+                  git_fail = False)
 
 
 tr = env.trajectory
