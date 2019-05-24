@@ -9,10 +9,11 @@ TESTRUN=true
 DEBUG=false
 CLUSTER='x-men'
 
-while getopts "hln:c:m:Eds" opt; do
+while getopts "hln:c:m:Edsp:" opt; do
     case $opt in
     h) echo "usage: $0 [-h] [-a] [-l] ..."; exit ;;
     l) LOCAL_COMPUTE=true ;;
+    p) POSTFIX=$OPTARG ;;
     n) NPARSIM=$OPTARG ;;
     c) NCORES=$OPTARG ;;
     m) MEMGB=$OPTARG ;;
@@ -23,7 +24,10 @@ while getopts "hln:c:m:Eds" opt; do
     esac
 done
 
-read -p "Postfix: " POSTFIX
+if ["$POSTFIX" == ""]
+then
+    read -p "Postfix: " POSTFIX
+fi
 read -p "Description: " DESCRIPTION
 
 # echo $NPARSIM
