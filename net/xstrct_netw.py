@@ -279,7 +279,7 @@ def run_net(tr):
     SynEE.syn_active = initial_active
     SynEE.a = initial_a
 
-    if tr.istrct_active:
+    if tr.istdp_active and tr.istrct_active:
         rs = np.random.uniform(size=tr.N_i*tr.N_e)
         initial_active = (rs < tr.p_ei).astype('int')
         initial_a = initial_active * tr.a_ei
