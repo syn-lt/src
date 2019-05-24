@@ -52,7 +52,7 @@ env = Environment(trajectory=label,
                   use_pool=False, # likely not working w/ brian2
                   wrap_mode='QUEUE', # ??
                   overwrite_file=False, # ??
-                  git_repository='./code/',
+                  git_repository='./net/',
                   git_fail = False)
 
 
