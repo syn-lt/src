@@ -4,7 +4,7 @@ NPARSIM=1
 NCORES=1
 MEMGB=2
 LOCAL_COMPUTE=false
-POSTFIX=''
+POSTFIX=""
 TESTRUN=true
 DEBUG=false
 CLUSTER='x-men'
@@ -24,7 +24,7 @@ while getopts "hln:c:m:P:Eds" opt; do
     esac
 done
 
-if [ "$POSTFIX" = ""]
+if [ "$POSTFIX" = "" ]
 then
     read -p "Postfix: " POSTFIX
 fi
