@@ -900,19 +900,19 @@ def run_net(tr):
 
     #os.chdir('./analysis/file_based/')
 
-    from analysis.overview_winh import overview_figure
+    from code.analysis.overview_winh import overview_figure
     overview_figure('builds/%.4d'%(tr.v_idx), namespace)
 
-    from analysis.synw_fb import synw_figure
+    from code.analysis.synw_fb import synw_figure
     synw_figure('builds/%.4d'%(tr.v_idx), namespace)
 
-    from analysis.synw_log_fb import synw_log_figure
+    from code.analysis.synw_log_fb import synw_log_figure
     synw_log_figure('builds/%.4d'%(tr.v_idx), namespace)
     
-    # from analysis.turnover_fb import turnover_figure
+    # from code.analysis.turnover_fb import turnover_figure
     # turnover_figure('builds/%.4d'%(tr.v_idx), namespace, fit=False)
 
-    # from analysis.turnover_fb import turnover_figure
+    # from code.analysis.turnover_fb import turnover_figure
     # turnover_figure('builds/%.4d'%(tr.v_idx), namespace, fit=True)
 
           
