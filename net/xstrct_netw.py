@@ -315,7 +315,7 @@ def run_net(tr):
                                             when='end',
                                             name='synEE_scaling')
 
-    if tr.netw.config.iscl_active:
+    if tr.istdp_active and tr.netw.config.iscl_active:
 
         if tr.syn_iscl_rec:
             SynEI.scl_rec_start = tr.T1+tr.T2+tr.T3
