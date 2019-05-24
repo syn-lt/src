@@ -40,7 +40,7 @@ if not args.testrun:
 
 
 
-filename = os.path.join('data', name+'_'+str(commit)[:6]+'.hdf5')
+filename = os.path.join(os.getcwd(), 'data/', name+'.hdf5')
 
 # if not the first run, tr2 will be merged later
 label = 'tr1'
