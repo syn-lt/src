@@ -2,9 +2,8 @@
 
 echo ""
 echo ""
-
 echo "Running " $1
-
+echo ""
 
 if $6
 then
