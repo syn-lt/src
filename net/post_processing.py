@@ -193,7 +193,8 @@ def post_process_scl_rec(tr):
 def post_process(tr):
 
     post_process_turnover(tr, 'EE')
-    post_process_turnover(tr, 'EI')
+    if tr.istdp_active and tr.istrct_active:
+        post_process_turnover(tr, 'EI')
 
     srvprb_EE_figure('builds/%.4d'%(tr.v_idx))
     srvprb_EI_figure('builds/%.4d'%(tr.v_idx))
