@@ -9,7 +9,7 @@ TESTRUN=true
 DEBUG=false
 CLUSTER='x-men'
 
-while getopts "hln:c:m:Edsp:" opt; do
+while getopts "hln:c:m:P:Eds" opt; do
     case $opt in
     h) echo "usage: $0 [-h] [-a] [-l] ..."; exit ;;
     l) LOCAL_COMPUTE=true ;;
@@ -19,7 +19,7 @@ while getopts "hln:c:m:Edsp:" opt; do
     E) TESTRUN=false ;;
     d) DEBUG=true ;;
     s) CLUSTER='sleuths' ;;
-    p) POSTFIX=$OPTARG ;;
+    P) POSTFIX=$OPTARG ;;
     \?) echo "error: option -$OPTARG is not implemented"; exit ;;
     esac
 done
