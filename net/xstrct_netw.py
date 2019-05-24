@@ -364,7 +364,7 @@ def run_net(tr):
 
 
 
-    if tr.netw.config.istrct_active:
+    if tr.istdp_active and tr.netw.config.istrct_active:
         if tr.strct_mode == 'zero':    
             if tr.turnover_rec:
                 strct_mod_EI  = '''%s 
@@ -404,7 +404,7 @@ def run_net(tr):
         netw_objects.extend([sum_target, sum_connection, growth_updater])
 
 
-    if tr.istrct_active:
+    if tr.istdp_active and tr.istrct_active:
 
         # keep track of the number of active synapses
         sum_target_EI = NeuronGroup(1, 'c : 1 (shared)', dt=tr.csample_dt)
