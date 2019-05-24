@@ -631,9 +631,10 @@ def run_net(tr):
     if tr.istdp_active and tr.netw.config.iscl_active:
         synei_scaling.active=False
     strctplst.active=False
-    strctplst_EI.active=False
+    if tr.istdp_active and tr.istrct_active:
+        strctplst_EI.active=False
     SynEE.stdp_active=0
-    if tr.netw.config.istdp_active:
+    if tr.istdp- tr.netw.config.istdp_active:
         SynEI.stdp_active=0
 
     set_active(GExc_spks)
