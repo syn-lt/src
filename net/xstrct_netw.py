@@ -199,7 +199,7 @@ def run_net(tr):
                          namespace=namespace, dt=tr.synEE_mod_dt)
     else:
         SynEI = Synapses(target=GExc, source=GInh,
-                         model-on_pre='gi_post += a_ei',
+                         on_pre='gi_post += a_ei',
                          namespace=namespace)
 
     #other simple  
