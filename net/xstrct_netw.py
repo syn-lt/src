@@ -690,14 +690,14 @@ def run_net(tr):
             pickle.dump(SynEI_a_states,pfile)
         
 
-    if tr.adjust_insertP:
+    if tr.istdp_active and tr.adjust_insertP:
         with open(raw_dir+'c_stat.p','wb') as pfile:
             pickle.dump(C_stat.get_states(),pfile)   
 
         with open(raw_dir+'insP_stat.p','wb') as pfile:
             pickle.dump(insP_stat.get_states(),pfile)
 
-    if tr.adjust_EI_insertP:
+    if tr.istdp_active and tr.adjust_EI_insertP:
         with open(raw_dir+'c_EI_stat.p','wb') as pfile:
             pickle.dump(C_EI_stat.get_states(),pfile)   
 
