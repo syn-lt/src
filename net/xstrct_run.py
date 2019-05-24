@@ -21,19 +21,22 @@ from .post_processing import post_process
 import argparse
 parser = argparse.ArgumentParser()
 parser.add_argument("--ncores", "-c", help="No. cores", nargs=1)
+parser.add_argument("--testrun", "-t", action='store_true')
 args = parser.parse_args()
 ncores = int(args.ncores[0])
+
 print("Using {:d} cores".format(ncores))
 
 
 # check the state of the git repository
 repo = git.Repo('./code/')
 
-# check for changes, while ignoring submodules
-if repo.git.status('-s', '--ignore-submodules'):
-    raise pex.GitDiffError('Found not committed changes!')
+if not args.testrun:
+    # check for changes, while ignoring submodules
+    if repo.git.status('-s', '--ignore-submodules'):
+        raise pex.GitDiffError('Found not committed changes!')
 
-commit = repo.commit(None)
+    commit = repo.commit(None)
 
 
 
@@ -58,8 +61,9 @@ tr = env.trajectory
 
 add_params(tr)
 
-tr.f_add_parameter('mconfig.git.sha1', str(commit))
-tr.f_add_parameter('mconfig.git.message', commit.message)
+if not args.testrun:
+    tr.f_add_parameter('mconfig.git.sha1', str(commit))
+    tr.f_add_parameter('mconfig.git.message', commit.message)
 
 tr.f_explore(explore_dict)
 
