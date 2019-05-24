@@ -218,7 +218,7 @@ def run_net(tr):
         SynEE.connect(i=sEE_src, j=sEE_tar)
         SynEE.syn_active = 1
 
-    if tr.istrct_active:
+    if tr.istdp_active and tr.istrct_active:
         print('istrct active')
         sEI_src, sEI_tar = generate_full_connectivity(Nsrc=tr.N_i, Ntar=tr.N_e, same=False)
         SynEI.connect(i=sEI_src, j=sEI_tar)
@@ -900,8 +900,13 @@ def run_net(tr):
 
     #os.chdir('./analysis/file_based/')
 
-    from code.analysis.overview_winh import overview_figure
-    overview_figure('builds/%.4d'%(tr.v_idx), namespace)
+    if tr.istdp_active:
+        from code.analysis.overview_winh import overview_figure
+        overview_figure('builds/%.4d'%(tr.v_idx), namespace)
+    else:
+        from code.analysis.overview import overview_figure
+        overview_figure('builds/%.4d'%(tr.v_idx), namespace)
+
 
     from code.analysis.synw_fb import synw_figure
     synw_figure('builds/%.4d'%(tr.v_idx), namespace)
