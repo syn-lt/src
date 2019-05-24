@@ -198,7 +198,9 @@ def run_net(tr):
                          on_pre=synEI_pre_mod, on_post=synEI_post_mod,
                          namespace=namespace, dt=tr.synEE_mod_dt)
     else:
-        SynEI = Synapses(target=GExc, source=GInh, on_pre='gi_post += a_ei',
+        SynEI = Synapses(target=GExc, source=GInh,
+                         model='syn_active : integer',
+                         on_pre='gi_post += a_ei',
                          namespace=namespace)
 
     #other simple  
