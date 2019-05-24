@@ -27,7 +27,7 @@ print("Using {:d} cores".format(ncores))
 
 
 # check the state of the git repository
-repo = git.Repo('../')
+repo = git.Repo('./')
 
 # check for changes, while ignoring submodules
 if repo.git.status('-s', '--ignore-submodules'):

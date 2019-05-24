@@ -1,19 +1,53 @@
 #!/bin/sh
 
-# first get the current working directory
+NPARSIM=1
+NCORES=1
+MEMGB=2
+LOCAL_COMPUTE=false
+POSTFIX=''
+TESTRUN=true
+DEBUG=false
+CLUSTER='x-men'
+
+while getopts "hln:c:m:Eds" opt; do
+    case $opt in
+    h) echo "usage: $0 [-h] [-a] [-l] ..."; exit ;;
+    l) LOCAL_COMPUTE=true ;;
+    n) NPARSIM=$OPTARG ;;
+    c) NCORES=$OPTARG ;;
+    m) MEMGB=$OPTARG ;;
+    E) TESTRUN=false ;;
+    d) DEBUG=true ;;
+    s) CLUSTER='sleuths' ;;
+    \?) echo "error: option -$OPTARG is not implemented"; exit ;;
+    esac
+done
+
+read -p "Postfix: " POSTFIX
+read -p "Description: " DESCRIPTION
+
+# echo $NPARSIM
+# echo $NCORES
+# echo $MEMGB
+# echo $POSTFIX
+# echo $LOCAL_COMPUTE
+# echo $DESCRIPTION
+
+
 CODEDIR=$(pwd);
 
-# use timestamp as temporary folder name
-TIMESTAMP=$(date +"%Y-%m-%d_%H-%M-%S");
+# use timestamp + POSTFIX as temporary folder name
+TIMESTAMP=$(date +"%y%m%d_%H%M%S")$POSTFIX;
 
-mkdir ../running/$TIMESTAMP
+
+mkdir -p ../running/$TIMESTAMP
 
 #rsync -a --exclude='*~' --exclude='.git' \
 rsync -a --exclude='*~' \
       $CODEDIR/ ../running/$TIMESTAMP/code/
 
-rsync -a --exclude='.git' --exclude='*~' --exclude='__pycache__' \
-      $CODEDIR/../analysis/ ../running/$TIMESTAMP/analysis
+rsync -a --delete --exclude='*~' --exclude='__pycache__' \
+      $CODEDIR/../analysis-dev/ ../running/$TIMESTAMP/code/analysis
 
 cd ../running/$TIMESTAMP
 
@@ -21,18 +55,26 @@ cd ../running/$TIMESTAMP
 touch nohup.out
 rm nohup.out
 
-NPARSIM=$1;
-NCORES=$2;
-MEMGB=$3;
-
-nohup ./code/run_local.sh $TIMESTAMP $CODEDIR $NPARSIM $NCORES $MEMGB &
-
-# touch $CODEDIR/../$TIMESTAMP
+echo $DESCRIPTION > ./description
 
 
-# run via sbatch -p x-men -c <ncores> --mem 32GB run.sh <ncores>
+if $DEBUG
+then
+   ./code/run_local.sh $TIMESTAMP $CODEDIR $NPARSIM \
+                          $NCORES $MEMGB $LOCAL_COMPUTE \
+                          $CLUSTER $TESTRUN &
+else
+    nohup ./code/run_local.sh $TIMESTAMP $CODEDIR $NPARSIM \
+                          $NCORES $MEMGB $LOCAL_COMPUTE \
+                          $CLUSTER $TESTRUN &
+fi
 
-# echo "START"
-# running -p x-men -c $1 --mem 32GB python stdp_scl_it_strct_run.py -c $1
-# echo "END"
-# touch end.org
+# # touch $CODEDIR/../$TIMESTAMP
+
+
+# # run via sbatch -p x-men -c <ncores> --mem 32GB run.sh <ncores>
+
+# # echo "START"
+# # running -p x-men -c $1 --mem 32GB python stdp_scl_it_strct_run.py -c $1
+# # echo "END"
+# # touch end.org
