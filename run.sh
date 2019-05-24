@@ -13,13 +13,13 @@ while getopts "hln:c:m:Edsp:" opt; do
     case $opt in
     h) echo "usage: $0 [-h] [-a] [-l] ..."; exit ;;
     l) LOCAL_COMPUTE=true ;;
-    p) POSTFIX=$OPTARG ;;
     n) NPARSIM=$OPTARG ;;
     c) NCORES=$OPTARG ;;
     m) MEMGB=$OPTARG ;;
     E) TESTRUN=false ;;
     d) DEBUG=true ;;
     s) CLUSTER='sleuths' ;;
+    p) POSTFIX=$OPTARG ;;
     \?) echo "error: option -$OPTARG is not implemented"; exit ;;
     esac
 done

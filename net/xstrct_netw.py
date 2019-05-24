@@ -486,7 +486,7 @@ def run_net(tr):
         netw_objects.append(SynEI_stat)
         
 
-    if tr.adjust_insertP:
+    if tr.istdp_active and tr.adjust_insertP:
 
         C_stat = StateMonitor(sum_target, 'c', dt=tr.csample_dt,
                               record=[0], when='end')
@@ -494,7 +494,7 @@ def run_net(tr):
                                  record=[0], when='end')
         netw_objects.extend([C_stat, insP_stat])
 
-    if tr.adjust_EI_insertP:
+    if tr.istdp_active and tr.adjust_EI_insertP:
 
         C_EI_stat = StateMonitor(sum_target_EI, 'c', dt=tr.csample_dt,
                                  record=[0], when='end')
