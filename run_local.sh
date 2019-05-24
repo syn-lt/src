@@ -5,11 +5,23 @@ echo ""
 echo "Running " $1
 echo ""
 
+if $8
+then
+    TESTFLAG='-t'
+    DESTINATION='tests'
+else
+    TESTFLAG=''
+    DESTINATION='completed'
+fi
+
+
 if $6
 then
-   python -m code.net.xstrct_run -c $3
+   echo "doing local"
+   python -m code.net.xstrct_run -c $3 $TESTFLAG
 else
-   srun -p $7 -c $4 --mem $5 --time 29-00 python -m code.net.xstrct_run -c $3
+   echo "doing nonlocal"
+   srun -p $7 -c $4 --mem $5 --time 29-00 python -m code.net.xstrct_run -c $3 $TESTFLAG
 fi
 
 # # with multiprocessing. currently defunct because of a problem
@@ -27,12 +39,6 @@ echo "Done."
 
 CRDIR=$(pwd);
 
-if $8
-then
-    DESTINATION='tests'
-else
-    DESTINATION='completed'
-fi
 
 mkdir -p ../../$DESTINATION/
 mv $CRDIR ../../$DESTINATION/$1

@@ -8,6 +8,7 @@ POSTFIX=""
 TESTRUN=true
 DEBUG=false
 CLUSTER='x-men'
+DESCRIPTION=''
 
 while getopts "hln:c:m:P:Eds" opt; do
     case $opt in
@@ -28,7 +29,11 @@ if [ "$POSTFIX" = "" ]
 then
     read -p "Postfix: " POSTFIX
 fi
-read -p "Description: " DESCRIPTION
+
+if ! $TESTRUN
+then
+    read -p "Description: " DESCRIPTION
+fi    
 
 # echo $NPARSIM
 # echo $NCORES
@@ -64,10 +69,12 @@ echo $DESCRIPTION > ./description
 
 if $DEBUG
 then
+   echo "debug mode" 
    ./code/run_local.sh $TIMESTAMP $CODEDIR $NPARSIM \
                           $NCORES $MEMGB $LOCAL_COMPUTE \
-                          $CLUSTER $TESTRUN &
+                          $CLUSTER $TESTRUN 
 else
+    echo "normal mode"
     nohup ./code/run_local.sh $TIMESTAMP $CODEDIR $NPARSIM \
                           $NCORES $MEMGB $LOCAL_COMPUTE \
                           $CLUSTER $TESTRUN &
