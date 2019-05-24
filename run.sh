@@ -24,7 +24,7 @@ while getopts "hln:c:m:P:Eds" opt; do
     esac
 done
 
-if ["$POSTFIX" == ""]
+if [$POSTFIX == ""]
 then
     read -p "Postfix: " POSTFIX
 fi
