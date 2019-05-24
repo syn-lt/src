@@ -1,14 +1,16 @@
 #!/bin/sh
 
+echo ""
+echo ""
+
 echo "Running " $1
 
-cd code/
 
 if $6
 then
-   python -m net.xstrct_run -c $3
+   python -m code.net.xstrct_run -c $3
 else
-   srun -p $7 -c $4 --mem $5 --time 29-00 python -m net.xstrct_run -c $3
+   srun -p $7 -c $4 --mem $5 --time 29-00 python -m code.net.xstrct_run -c $3
 fi
 
 # # with multiprocessing. currently defunct because of a problem
@@ -22,7 +24,7 @@ fi
 #./run_analysis_fb.sh 
 
 echo "Done."
-cd ../
+
 
 CRDIR=$(pwd);
 
