@@ -199,8 +199,7 @@ def run_net(tr):
                          namespace=namespace, dt=tr.synEE_mod_dt)
     else:
         SynEI = Synapses(target=GExc, source=GInh,
-                         model='syn_active : integer',
-                         on_pre='gi_post += a_ei',
+                         model-on_pre='gi_post += a_ei',
                          namespace=namespace)
 
     #other simple  
@@ -234,8 +233,9 @@ def run_net(tr):
 
         # initial values, as they are not later set
         # by istrct initialization
-        SynEI.a = tr.a_ei
-        SynEI.syn_active = 1
+        if tr.istdp_active:
+            SynEI.a = tr.a_ei
+            SynEI.syn_active = 1
 
         
 
