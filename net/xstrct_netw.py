@@ -259,9 +259,13 @@ def run_net(tr):
 
     if tr.syn_noise:
         SynEE.syn_sigma = tr.syn_sigma
+        SynEE.run_regularly('a = clip(a,0,amax)', when='after_groups',
+                            name='SynEE_noise_clipper') 
 
     if tr.syn_noise and tr.istdp_active:
         SynEI.syn_sigma = tr.syn_sigma
+        SynEI.run_regularly('a = clip(a,0,amax)', when='after_groups',
+                            name='SynEI_noise_clipper') 
 
     SynEE.insert_P = tr.insert_P
     SynEE.p_inactivate = tr.p_inactivate
