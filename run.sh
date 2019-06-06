@@ -64,8 +64,10 @@ cd ../running/$TIMESTAMP
 touch nohup.out
 rm nohup.out
 
-echo $DESCRIPTION > ./description
-
+if [[ ! -z $DESCRIPTION ]]
+then
+   echo $DESCRIPTION > ./description
+fi
 
 if $DEBUG
 then
