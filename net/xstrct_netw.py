@@ -198,8 +198,10 @@ def run_net(tr):
                          on_pre=synEI_pre_mod, on_post=synEI_post_mod,
                          namespace=namespace, dt=tr.synEE_mod_dt)
     else:
-        SynEI = Synapses(target=GExc, source=GInh,
-                         on_pre='gi_post += a_ei',
+        model = '''a : 1
+                   syn_active : 1'''
+        SynEI = Synapses(target=GExc, source=GInh, model=model,
+                         on_pre='gi_post += a',
                          namespace=namespace)
 
     #other simple  
@@ -233,9 +235,8 @@ def run_net(tr):
 
         # initial values, as they are not later set
         # by istrct initialization
-        if tr.istdp_active:
-            SynEI.a = tr.a_ei
-            SynEI.syn_active = 1
+        SynEI.a = tr.a_ei
+        SynEI.syn_active = 1
 
         
 
@@ -525,7 +526,7 @@ def run_net(tr):
                            dt=SynEE_a_dt,
                            when='end', order=100)
 
-    if tr.istdp_active and tr.synei_a_nrecpoints>0:
+    if tr.synei_a_nrecpoints>0:
         SynEI_a_dt = tr.sim.T2/tr.synei_a_nrecpoints
 
         if tr.istrct_active:
@@ -645,7 +646,7 @@ def run_net(tr):
             report_period=300*second, profile=True)
         
     SynEE_a.record_single_timestep()
-    if tr.istdp_active and tr.synei_a_nrecpoints>0:
+    if tr.synei_a_nrecpoints>0:
         SynEI_a.record_single_timestep()
 
     device.build(directory='builds/%.4d'%(tr.v_idx), clean=True,
@@ -682,7 +683,7 @@ def run_net(tr):
             SynEE_a_states['j'] = list(SynEE.j)
         pickle.dump(SynEE_a_states,pfile)
 
-    if tr.istdp_active and tr.synei_a_nrecpoints>0:
+    if tr.synei_a_nrecpoints>0:
         with open(raw_dir+'synei_a.p','wb') as pfile:
             SynEI_a_states = SynEI_a.get_states()
             if tr.crs_crrs_rec:
