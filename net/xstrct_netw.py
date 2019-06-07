@@ -65,6 +65,8 @@ def run_net(tr):
                        namespace=namespace)
 
     if tr.external_mode=='memnoise':
+        # GExc.mu, GInh.mu = [0.*mV] + (tr.N_e-1)*[tr.mu_e], tr.mu_i
+        # GExc.sigma, GInh.sigma = [0.*mV] + (tr.N_e-1)*[tr.sigma_e], tr.sigma_i
         GExc.mu, GInh.mu = tr.mu_e, tr.mu_i
         GExc.sigma, GInh.sigma = tr.sigma_e, tr.sigma_i
 
@@ -230,7 +232,9 @@ def run_net(tr):
     else:
         print('istrct not active')
         sEI_src, sEI_tar = generate_connections(tr.N_e, tr.N_i, tr.p_ei)
-        print(len(sEI_src))
+        # print('Index Zero will not get inhibition')
+        # sEI_src, sEI_tar = np.array(sEI_src), np.array(sEI_tar)
+        # sEI_src, sEI_tar = sEI_src[sEI_tar > 0],sEI_tar[sEI_tar > 0]
         SynEI.connect(i=sEI_src, j=sEI_tar)
 
         # initial values, as they are not later set
@@ -632,10 +636,12 @@ def run_net(tr):
     # freeze network and record Exc spikes
     # for cross correlations
 
-    synee_scaling.active=False
+    if tr.scl_active:
+        synee_scaling.active=False
     if tr.istdp_active and tr.netw.config.iscl_active:
         synei_scaling.active=False
-    strctplst.active=False
+    if tr.strct_active:
+        strctplst.active=False
     if tr.istdp_active and tr.istrct_active:
         strctplst_EI.active=False
     SynEE.stdp_active=0
