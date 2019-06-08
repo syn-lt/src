@@ -495,7 +495,7 @@ def run_net(tr):
         netw_objects.append(SynEI_stat)
         
 
-    if tr.istdp_active and tr.adjust_insertP:
+    if tr.adjust_insertP:
 
         C_stat = StateMonitor(sum_target, 'c', dt=tr.csample_dt,
                               record=[0], when='end')
@@ -702,7 +702,7 @@ def run_net(tr):
             pickle.dump(SynEI_a_states,pfile)
         
 
-    if tr.istdp_active and tr.adjust_insertP:
+    if tr.adjust_insertP:
         with open(raw_dir+'c_stat.p','wb') as pfile:
             pickle.dump(C_stat.get_states(),pfile)   
 
