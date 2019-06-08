@@ -34,6 +34,9 @@ fi
 #mv code/run_analysis_fb.sh .
 #./run_analysis_fb.sh 
 
+
+cp code/run_analysis.sh .
+
 echo "Done."
 
 
