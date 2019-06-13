@@ -135,22 +135,24 @@ def run_net(tr):
         
     if tr.syn_noise:
         synEE_mod = '''%s 
-                       %s
-                       %s''' %(tr.synEE_noise, tr.synEE_mod, tr.synEE_scl_mod)
+                       %s''' %(tr.synEE_noise, tr.synEE_mod)
 
         synEI_mod = '''%s 
-                       %s
-                       %s''' %(tr.synEE_noise, tr.synEE_mod, tr.synEI_scl_mod)
+                       %s''' %(tr.synEE_noise, tr.synEE_mod)
 
     else:
         synEE_mod = '''%s 
-                       %s
-                       %s''' %(tr.synEE_static, tr.synEE_mod, tr.synEE_scl_mod)
+                       %s''' %(tr.synEE_static, tr.synEE_mod)
 
         synEI_mod = '''%s 
-                       %s
-                       %s''' %(tr.synEE_static, tr.synEE_mod, tr.synEI_scl_mod)
+                       %s''' %(tr.synEE_static, tr.synEE_mod)
 
+    if tr.scl_active:
+        synEE_mod = '''%s
+                       %s''' %(synEE_mod, tr.synEE_scl_mod)
+        synEI_mod = '''%s
+                       %s''' %(synEI_mod, tr.synEI_scl_mod)
+        
 
     synEE_pre_mod = mod.synEE_pre
     synEE_post_mod = mod.syn_post
@@ -274,6 +276,8 @@ def run_net(tr):
     SynEE.insert_P = tr.insert_P
     SynEE.p_inactivate = tr.p_inactivate
     SynEE.stdp_active=1
+    print('Setting maximum EE weight threshold to ', tr.amax)
+    SynEE.amax = tr.amax
 
     if tr.istdp_active:
         SynEI.insert_P = tr.insert_P_ei

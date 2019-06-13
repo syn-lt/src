@@ -56,6 +56,8 @@ synEE_mod = '''
 
             stdp_rec_start : second (shared)
             stdp_rec_max   : second (shared)
+
+            amax : 1 (shared)
             '''
 
 synEE_scl_mod = 'AsumEE_post = a : 1 (summed)'
