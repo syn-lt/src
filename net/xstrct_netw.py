@@ -215,15 +215,11 @@ def run_net(tr):
     SynII = Synapses(target=GInh, source=GInh, on_pre='gi_post += a_ii',
                      namespace=namespace)
 
-    if tr.strct_active:
-        sEE_src, sEE_tar = generate_full_connectivity(tr.N_e, same=True)
-        SynEE.connect(i=sEE_src, j=sEE_tar)
-        SynEE.syn_active = 0
+        
+    sEE_src, sEE_tar = generate_full_connectivity(tr.N_e, same=True)
+    SynEE.connect(i=sEE_src, j=sEE_tar)
+    SynEE.syn_active = 0
 
-    else:
-        sEE_src, sEE_tar = generate_connections(tr.N_e, tr.N_e, tr.p_ee, same=True)
-        SynEE.connect(i=sEE_src, j=sEE_tar)
-        SynEE.syn_active = 1
 
     if tr.istdp_active and tr.istrct_active:
         print('istrct active')
@@ -284,7 +280,6 @@ def run_net(tr):
         SynEI.p_inactivate = tr.p_inactivate_ei
         SynEI.stdp_active=1
      
-
     # make randomly chosen synapses active at beginning
     rs = np.random.uniform(size=tr.N_e*(tr.N_e-1))
     initial_active = (rs < tr.p_ee).astype('int')
