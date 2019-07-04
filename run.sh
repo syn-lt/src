@@ -52,7 +52,7 @@ TIMESTAMP=$(date +"%y%m%d_%H%M%S")$POSTFIX;
 mkdir -p ../running/$TIMESTAMP
 
 #rsync -a --exclude='*~' --exclude='.git' \
-rsync -a --exclude='*~' \
+rsync -a --exclude='*~' --exclude='analysis/' \
       $CODEDIR/ ../running/$TIMESTAMP/code/
 
 rsync -a --delete --exclude='*~' --exclude='__pycache__' \
