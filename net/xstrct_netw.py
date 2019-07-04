@@ -908,6 +908,9 @@ def run_net(tr):
 
     # -----------------  clean up  ---------------------------
     shutil.rmtree('builds/%.4d/results/'%(tr.v_idx))
+    shutil.rmtree('builds/%.4d/static_arrays/'%(tr.v_idx))
+    shutil.rmtree('builds/%.4d/brianlib/'%(tr.v_idx))
+    shutil.rmtree('builds/%.4d/code_objects/'%(tr.v_idx))
             
 
     # ---------------- plot results --------------------------
