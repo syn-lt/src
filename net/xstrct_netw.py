@@ -616,7 +616,12 @@ def run_net(tr):
     if tr.external_mode=='poisson':
         set_active(PInp_spks, PInp_rate)
     
-    net.run(tr.sim.T3, report='text',
+    net.run(tr.sim.T3/2, report='text',
+            report_period=300*second, profile=True)
+
+    # GInh.mu=tr.mu_i+0.5*mV
+
+    net.run(tr.sim.T3/2, report='text',
             report_period=300*second, profile=True)
 
     # --------- T4 ---------
@@ -927,9 +932,15 @@ def run_net(tr):
 
     from code.analysis.synw_fb import synw_figure
     synw_figure('builds/%.4d'%(tr.v_idx), namespace)
+    if tr.istdp_active:
+        synw_figure('builds/%.4d'%(tr.v_idx),
+                    namespace, connections='EI')
 
     from code.analysis.synw_log_fb import synw_log_figure
     synw_log_figure('builds/%.4d'%(tr.v_idx), namespace)
+    if tr.istdp_active:
+        synw_log_figure('builds/%.4d'%(tr.v_idx),
+                        namespace, connections='EI')
     
     # from code.analysis.turnover_fb import turnover_figure
     # turnover_figure('builds/%.4d'%(tr.v_idx), namespace, fit=False)
