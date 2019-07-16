@@ -83,7 +83,7 @@ synEI_pre = '''
 synEI_pre_sym = '''
                 gi_post += syn_active*a
                 Apre = syn_active*Aplus
-                a = a - LTD_a
+                a = a - stdp_active*LTD_a
                 '''
 
 
