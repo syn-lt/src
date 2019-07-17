@@ -158,7 +158,12 @@ def add_params(tr):
 
     tr.f_add_parameter('netw.rec.syn_scl_rec', prm.syn_scl_rec)
     tr.f_add_parameter('netw.rec.stdp_rec_T', prm.stdp_rec_T)
-    tr.f_add_parameter('netw.rec.scl_rec_T', prm.scl_rec_T)    
+    tr.f_add_parameter('netw.rec.scl_rec_T', prm.scl_rec_T)
+
+    tr.f_add_parameter('netw.rec.synEEdynrec', prm.synEEdynrec)
+    tr.f_add_parameter('netw.rec.synEIdynrec', prm.synEIdynrec)
+    tr.f_add_parameter('netw.rec.syndynrec_dt', prm.syndynrec_dt)
+    tr.f_add_parameter('netw.rec.syndynrec_npts', prm.syndynrec_npts)
 
     tr.f_add_parameter('netw.rec.synee_atraces_rec',
                        prm.synee_atraces_rec)

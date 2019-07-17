@@ -145,6 +145,11 @@ syn_scl_rec = 0
 stdp_rec_T = 1*second
 scl_rec_T = 1*second
 
+synEEdynrec = 0
+synEIdynrec = 0
+syndynrec_dt = 5*second
+syndynrec_npts = 4
+
 turnover_rec = 0
 spks_rec = 0
 synee_a_nrecpoints = 10

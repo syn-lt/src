@@ -555,7 +555,23 @@ def run_net(tr):
                          SynEE_stat, SynEE_a, 
                          GExc_spks, GInh_spks,
                          GExc_rate, GInh_rate])
-    
+
+    if tr.synEEdynrec:
+        SynEE_dynrec = StateMonitor(SynEE, ['a'],
+                                    record=range(tr.N_e*(tr.N_e-1)),
+                                    dt=tr.syndynrec_dt,
+                                    when='end', order=100)
+        SynEE_dynrec.active=False
+        netw_objects.extend([SynEE_dynrec])
+
+            
+    if tr.synEIdynrec:
+        SynEI_dynrec = StateMonitor(SynEI, ['a'],
+                                    record=record_range,
+                                    dt=tr.syndynrec_dt,
+                                    when='end', order=100)
+        SynEI_dynrec.active=False
+        netw_objects.extend([SynEI_dynrec])  
 
     net = Network(*netw_objects)
 
@@ -604,8 +620,47 @@ def run_net(tr):
     if tr.external_mode=='poisson':
         set_inactive(PInp_spks, PInp_rate)
 
-    net.run(tr.sim.T2, report='text',
-            report_period=300*second, profile=True)
+        
+    # record the change of weights in a short time interval at
+    # beginning and end of simulation
+    if ( tr.synEEdynrec or tr.synEIdynrec and
+         2*tr.syndynrec_npts*tr.syndynrec_dt < tr.sim.T2 ):
+
+        if tr.synEEdynrec:
+            SynEE_dynrec.active=True
+        if tr.synEIdynrec:
+            SynEI_dynrec.active=True
+        
+        net.run(tr.syndynrec_npts*tr.syndynrec_dt, report='text',
+                report_period=300*second, profile=True)
+
+        if tr.synEEdynrec:
+            SynEE_dynrec.active=False
+        if tr.synEIdynrec:
+            SynEI_dynrec.active=False           
+
+        net.run(tr.sim.T2 - 2*tr.syndynrec_npts*tr.syndynrec_dt,
+                report='text', report_period=300*second,
+                profile=True)
+
+        if tr.synEEdynrec:
+            SynEE_dynrec.active=True
+        if tr.synEIdynrec:
+            SynEI_dynrec.active=True
+             
+        net.run(tr.syndynrec_npts*tr.syndynrec_dt, report='text',
+                report_period=300*second, profile=True)
+
+        if tr.synEEdynrec:
+            SynEE_dynrec.active=False
+        if tr.synEIdynrec:
+            SynEI_dynrec.active=False
+
+
+    else:
+        # not recording simulate, normally
+        net.run(tr.sim.T2, report='text',
+                report_period=300*second, profile=True)
 
     # --------- T3 ---------
     # second recording period,
@@ -689,7 +744,19 @@ def run_net(tr):
 
     if tr.istdp_active:
         with open(raw_dir+'synei_stat.p','wb') as pfile:
-            pickle.dump(SynEI_stat.get_states(),pfile)   
+            pickle.dump(SynEI_stat.get_states(),pfile)
+
+    if ( tr.synEEdynrec or tr.synEIdynrec and
+         2*tr.syndynrec_npts*tr.syndynrec_dt < tr.sim.T2 ):
+
+        if tr.synEEdynrec:
+            with open(raw_dir+'syneedynrec.p','wb') as pfile:
+                pickle.dump(SynEE_dynrec.get_states(),
+                            pfile)
+        if tr.synEIdynrec:
+            with open(raw_dir+'syneidynrec.p','wb') as pfile:
+                pickle.dump(SynEI_dynrec.get_states(),
+                            pfile)            
         
     with open(raw_dir+'synee_a.p','wb') as pfile:
         SynEE_a_states = SynEE_a.get_states()
