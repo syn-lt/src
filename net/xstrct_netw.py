@@ -538,16 +538,17 @@ def run_net(tr):
         netw_objects.extend([PInp_spks,PInp_rate])
 
 
-    if tr.synee_a_nrecpoints==0:
-        SynEE_a_dt = 10*tr.sim.T2
+    if tr.synee_a_nrecpoints==0 or tr.sim.T2==0*second:
+        SynEE_a_dt = 2*(tr.T1+tr.T2+tr.T3+tr.T4+tr.T5)
     else:
         SynEE_a_dt = tr.sim.T2/tr.synee_a_nrecpoints
+        
     SynEE_a = StateMonitor(SynEE, ['a','syn_active'],
                            record=range(tr.N_e*(tr.N_e-1)),
                            dt=SynEE_a_dt,
                            when='end', order=100)
 
-    if tr.synei_a_nrecpoints>0:
+    if tr.synei_a_nrecpoints>0 and tr.sim.T2>0*second:
         SynEI_a_dt = tr.sim.T2/tr.synei_a_nrecpoints
 
         if tr.istrct_active:
@@ -682,7 +683,7 @@ def run_net(tr):
     run_T5(net, tr)
     
     SynEE_a.record_single_timestep()
-    if tr.synei_a_nrecpoints>0:
+    if tr.synei_a_nrecpoints>0 and tr.sim.T2 > 0.*second:
         SynEI_a.record_single_timestep()
 
     device.build(directory='builds/%.4d'%(tr.v_idx), clean=True,
@@ -731,7 +732,7 @@ def run_net(tr):
             SynEE_a_states['j'] = list(SynEE.j)
         pickle.dump(SynEE_a_states,pfile)
 
-    if tr.synei_a_nrecpoints>0:
+    if tr.synei_a_nrecpoints>0 and tr.sim.T2 > 0.*second:
         with open(raw_dir+'synei_a.p','wb') as pfile:
             SynEI_a_states = SynEI_a.get_states()
             if tr.crs_crrs_rec:
