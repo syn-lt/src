@@ -202,3 +202,10 @@ def add_params(tr):
 
     # post processing
     tr.f_add_parameter('netw.pp_tcut', prm.pp_tcut)
+
+    # weight mode
+    tr.f_add_parameter('netw.weight_mode', prm.weight_mode)
+    tr.f_add_parameter('netw.weight_path', prm.weight_path)
+    
+
+    

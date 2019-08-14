@@ -163,3 +163,7 @@ csample_dt = 10*second
 
 # post processing
 pp_tcut = 100*second
+
+# weight modes
+weight_mode = 'init'
+weight_path = 'weights/'

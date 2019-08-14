@@ -25,6 +25,36 @@ from .cpp_methods import syn_scale, syn_EI_scale, \
                          record_spk, record_spk_EI
 
 
+
+def init_synapses(syn_type, tr):
+
+    if tr.weight_mode=="init":
+
+        if syn_type=="EE":
+            weights=tr.a_ee
+
+            # make randomly chosen synapses active at beginning
+            rs = np.random.uniform(size=tr.N_e*(tr.N_e-1))
+            initial_active = (rs < tr.p_ee).astype('int')
+            initial_weights = initial_active * tr.a_ee
+            
+        elif syn_type=="EI":
+
+            if tr.istdp_active and tr.istrct_active:
+                rs = np.random.uniform(size=tr.N_i*tr.N_e)
+                initial_active = (rs < tr.p_ei).astype('int')
+                initial_weights = initial_active * tr.a_ei
+
+            else:
+                initial_active = 1
+                initial_weights = tr.a_ei
+
+    elif tr.weight_mode=="load":
+        pass
+            
+
+    return initial_active, initial_weights
+
     
 def run_net(tr):
 
@@ -235,13 +265,7 @@ def run_net(tr):
         # sEI_src, sEI_tar = sEI_src[sEI_tar > 0],sEI_tar[sEI_tar > 0]
         SynEI.connect(i=sEI_src, j=sEI_tar)
 
-        # initial values, as they are not later set
-        # by istrct initialization
-        SynEI.a = tr.a_ei
-        SynEI.syn_active = 1
-
         
-
     sIE_src, sIE_tar = generate_connections(tr.N_i, tr.N_e, tr.p_ie)
     sII_src, sII_tar = generate_connections(tr.N_i, tr.N_i, tr.p_ii,
                                             same=True)
@@ -271,7 +295,7 @@ def run_net(tr):
 
     SynEE.insert_P = tr.insert_P
     SynEE.p_inactivate = tr.p_inactivate
-    SynEE.stdp_active=1
+    SynEE.stdp_active = 1
     print('Setting maximum EE weight threshold to ', tr.amax)
     SynEE.amax = tr.amax
 
@@ -281,20 +305,8 @@ def run_net(tr):
         SynEI.stdp_active=1
         SynEI.amax = tr.amax
      
-    # make randomly chosen synapses active at beginning
-    rs = np.random.uniform(size=tr.N_e*(tr.N_e-1))
-    initial_active = (rs < tr.p_ee).astype('int')
-    initial_a = initial_active * tr.a_ee
-    SynEE.syn_active = initial_active
-    SynEE.a = initial_a
-
-    if tr.istdp_active and tr.istrct_active:
-        rs = np.random.uniform(size=tr.N_i*tr.N_e)
-        initial_active = (rs < tr.p_ei).astype('int')
-        initial_a = initial_active * tr.a_ei
-        SynEI.syn_active = initial_active
-        SynEI.a = initial_a
-
+    SynEE.syn_active, SynEE.a = init_synapses('EE', tr)
+    SynEI.syn_active, SynEI.a = init_synapses('EI', tr)
 
 
     # recording of stdp in T4
