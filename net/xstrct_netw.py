@@ -19,6 +19,7 @@ from elephant.conversion import BinnedSpikeTrain
 from elephant.spike_train_correlation import corrcoef, cch
 import quantities as pq
 
+from .run_routines import run_T2_syndynrec, run_T3_split, run_T4, run_T5
 
 from .cpp_methods import syn_scale, syn_EI_scale, \
                          record_turnover, record_turnover_EI, \
@@ -622,57 +623,19 @@ def run_net(tr):
     net.run(tr.sim.T1, report='text',
             report_period=300*second, profile=True)
 
+
     # --------- T2 ---------
     # main simulation period
     # only active recordings are:
     #   1) turnover 2) C_stat 3) SynEE_a
-    
+
     set_inactive(*T1T3_recorders)
     
     if tr.external_mode=='poisson':
         set_inactive(PInp_spks, PInp_rate)
 
-        
-    # record the change of weights in a short time interval at
-    # beginning and end of simulation
-    if ( tr.synEEdynrec or tr.synEIdynrec and
-         2*tr.syndynrec_npts*tr.syndynrec_dt < tr.sim.T2 ):
+    run_T2_syndynrec(net, tr)
 
-        if tr.synEEdynrec:
-            SynEE_dynrec.active=True
-        if tr.synEIdynrec:
-            SynEI_dynrec.active=True
-        
-        net.run(tr.syndynrec_npts*tr.syndynrec_dt, report='text',
-                report_period=300*second, profile=True)
-
-        if tr.synEEdynrec:
-            SynEE_dynrec.active=False
-        if tr.synEIdynrec:
-            SynEI_dynrec.active=False           
-
-        net.run(tr.sim.T2 - 2*tr.syndynrec_npts*tr.syndynrec_dt,
-                report='text', report_period=300*second,
-                profile=True)
-
-        if tr.synEEdynrec:
-            SynEE_dynrec.active=True
-        if tr.synEIdynrec:
-            SynEI_dynrec.active=True
-             
-        net.run(tr.syndynrec_npts*tr.syndynrec_dt, report='text',
-                report_period=300*second, profile=True)
-
-        if tr.synEEdynrec:
-            SynEE_dynrec.active=False
-        if tr.synEIdynrec:
-            SynEI_dynrec.active=False
-
-
-    else:
-        # not recording simulate, normally
-        net.run(tr.sim.T2, report='text',
-                report_period=300*second, profile=True)
 
     # --------- T3 ---------
     # second recording period,
@@ -683,14 +646,8 @@ def run_net(tr):
     if tr.external_mode=='poisson':
         set_active(PInp_spks, PInp_rate)
     
-    net.run(tr.sim.T3/2, report='text',
-            report_period=300*second, profile=True)
-
-    # GInh.mu=tr.mu_i+0.5*mV
-
-    net.run(tr.sim.T3/2, report='text',
-            report_period=300*second, profile=True)
-
+    run_T3_split(net, tr)
+    
     # --------- T4 ---------
     # record STDP and scaling weight changes to file
     # through the cpp models
@@ -699,10 +656,8 @@ def run_net(tr):
 
     if tr.external_mode=='poisson':
         set_inactive(PInp_spks, PInp_rate)
-    
-    net.run(tr.sim.T4, report='text',
-            report_period=300*second, profile=True)
 
+    run_T4(net, tr)
 
     # --------- T5 ---------
     # freeze network and record Exc spikes
@@ -724,9 +679,8 @@ def run_net(tr):
     set_active(GInh_spks)
 
 
-    net.run(tr.sim.T5, report='text',
-            report_period=300*second, profile=True)
-        
+    run_T5(net, tr)
+    
     SynEE_a.record_single_timestep()
     if tr.synei_a_nrecpoints>0:
         SynEI_a.record_single_timestep()
