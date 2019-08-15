@@ -5,7 +5,8 @@ NCORES=1
 MEMGB=2
 LOCAL_COMPUTE=false
 POSTFIX=""
-TESTRUN=true
+TESTRUN='manual'
+TESTDIR_FULL=''
 DEBUG=false
 CLUSTER='x-men'
 DESCRIPTION=''
@@ -17,7 +18,7 @@ while getopts "hln:c:m:P:Eds" opt; do
     n) NPARSIM=$OPTARG ;;
     c) NCORES=$OPTARG ;;
     m) MEMGB=$OPTARG ;;
-    E) TESTRUN=false ;;
+    E) TESTRUN="false" ;;
     d) DEBUG=true ;;
     s) CLUSTER='sleuths' ;;
     P) POSTFIX=$OPTARG ;;
@@ -73,12 +74,12 @@ then
    echo "debug mode" 
    ./code/run_local.sh $TIMESTAMP $CODEDIR $NPARSIM \
                           $NCORES $MEMGB $LOCAL_COMPUTE \
-                          $CLUSTER $TESTRUN 
+                          $CLUSTER $TESTRUN $TESTDIR_FULL
 else
     echo "normal mode"
     nohup ./code/run_local.sh $TIMESTAMP $CODEDIR $NPARSIM \
                           $NCORES $MEMGB $LOCAL_COMPUTE \
-                          $CLUSTER $TESTRUN &
+                          $CLUSTER $TESTRUN $TESTDIR_FULL &
 fi
 
 # # touch $CODEDIR/../$TIMESTAMP
