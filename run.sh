@@ -61,8 +61,7 @@ rsync -a --delete --exclude='*~' --exclude='__pycache__' \
 cd ../running/$TIMESTAMP
 
 # make sure nohup.out doesn't exist
-touch nohup.out
-rm nohup.out
+rm -f nohup.out
 
 if [[ ! -z $DESCRIPTION ]]
 then
