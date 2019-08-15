@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 NPARSIM=1
 NCORES=1
@@ -64,7 +64,7 @@ cd ../running/$TIMESTAMP
 # make sure nohup.out doesn't exist
 rm -f nohup.out
 
-if [[ ! -z $DESCRIPTION ]]
+if [[ ! -z $DESCRIPTION ]];
 then
    echo $DESCRIPTION > ./description
 fi
