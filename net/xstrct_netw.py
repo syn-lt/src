@@ -574,6 +574,7 @@ def run_net(tr):
         SynEE_dynrec = StateMonitor(SynEE, ['a'],
                                     record=range(tr.N_e*(tr.N_e-1)),
                                     dt=tr.syndynrec_dt,
+                                    name='SynEE_dynrec',
                                     when='end', order=100)
         SynEE_dynrec.active=False
         netw_objects.extend([SynEE_dynrec])
@@ -583,6 +584,7 @@ def run_net(tr):
         SynEI_dynrec = StateMonitor(SynEI, ['a'],
                                     record=record_range,
                                     dt=tr.syndynrec_dt,
+                                    name='SynEI_dynrec',
                                     when='end', order=100)
         SynEI_dynrec.active=False
         netw_objects.extend([SynEI_dynrec])  
@@ -635,7 +637,7 @@ def run_net(tr):
     if tr.external_mode=='poisson':
         set_inactive(PInp_spks, PInp_rate)
 
-    run_T2_syndynrec(net, tr)
+    run_T2_syndynrec(net, tr, netw_objects)
 
 
     # --------- T3 ---------

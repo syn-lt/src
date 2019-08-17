@@ -8,7 +8,7 @@ from .cpp_methods import syn_scale, syn_EI_scale, \
 
 
 
-def run_T2_syndynrec(net, tr):
+def run_T2_syndynrec(net, tr, netw_objects):
 
     # main simulation period
     # only active recordings are:
@@ -25,34 +25,35 @@ def run_T2_syndynrec(net, tr):
          2*tr.syndynrec_npts*tr.syndynrec_dt < tr.sim.T2 ):
 
         if tr.synEEdynrec:
-            SynEE_dynrec.active=True
+            net['SynEE_dynrec'].active=True
         if tr.synEIdynrec:
-            SynEI_dynrec.active=True
+            net['SynEI_dynrec'].active=True
         
         net.run(tr.syndynrec_npts*tr.syndynrec_dt, report='text',
                 report_period=300*second, profile=True)
 
         if tr.synEEdynrec:
-            SynEE_dynrec.active=False
+            net['SynEE_dynrec'].active=False
         if tr.synEIdynrec:
-            SynEI_dynrec.active=False           
+            net['SynEI_dynrec'].active=False
 
         net.run(tr.sim.T2 - 2*tr.syndynrec_npts*tr.syndynrec_dt,
                 report='text', report_period=300*second,
                 profile=True)
 
         if tr.synEEdynrec:
-            SynEE_dynrec.active=True
+            net['SynEE_dynrec'].active=True
         if tr.synEIdynrec:
-            SynEI_dynrec.active=True
+            net['SynEI_dynrec'].active=True
              
         net.run(tr.syndynrec_npts*tr.syndynrec_dt, report='text',
                 report_period=300*second, profile=True)
 
         if tr.synEEdynrec:
-            SynEE_dynrec.active=False
+            net['SynEE_dynrec'].active=False
         if tr.synEIdynrec:
-            SynEI_dynrec.active=False
+            net['SynEI_dynrec'].active=False
+
 
 
     else:
