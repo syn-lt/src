@@ -8,7 +8,7 @@ echo ""
 if [ "$8" == "manual" ]; then
     echo "mode: test, manual"
     TESTFLAG='-t'
-    DESTINATION='tests'
+    DESTINATION='tests/man'
 elif [ "$8" == "net-test" ]; then
     echo "mode: test, net-test"
     TESTFLAG='-t'
