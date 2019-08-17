@@ -139,7 +139,7 @@ def add_params(tr):
     tr.f_add_parameter('netw.sim.T3',  prm.T3)
     tr.f_add_parameter('netw.sim.T4',  prm.T4)
     tr.f_add_parameter('netw.sim.T5',  prm.T5)
-    tr.f_add_parameter('netw.sim.dt', prm.netw_dt)
+    tr.f_add_parameter('netw.sim.dt', prm.dt)
     tr.f_add_parameter('netw.sim.n_threads', prm.n_threads)
 
     tr.f_add_parameter('netw.config.strct_active', prm.strct_active)

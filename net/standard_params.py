@@ -4,94 +4,94 @@ from brian2.units import *
 N_e = 400
 N_i = int(0.2*N_e)
 
-tau = 20*ms                 # membrane time constant
-tau_e = 3*ms                # EPSP time constant
-tau_i = 5*ms                # IPSP time constant
-El = -60*mV                 # resting value
-Ee = 0*mV                   # reversal potential Excitation 
-Ei = -80*mV                 # reversal potential Inhibition
-mu_e = 4.0*mV
-mu_i = 4.0*mV
-sigma_e = 4.0**0.5 *mV        # noise amplitude
-sigma_i = 4.0**0.5 *mV
+tau = 20.*ms                 # membrane time constant
+tau_e = 5.*ms                # EPSP time constant
+tau_i = 10.*ms               # IPSP time constant
+El = -60.*mV                 # resting value
+Ee = 0.*mV                   # reversal potential Excitation 
+Ei = -80.*mV                 # reversal potential Inhibition
+mu_e = 9.0*mV
+mu_i = 8.5*mV
+sigma_e = 0.5**0.5*mV        # noise amplitude
+sigma_i = 0.5**0.5*mV
 
-Vr_e = -60*mV
-Vr_i = -60*mV
-Vt_e = -57.5*mV
-Vt_i = -58*mV
+Vr_e = -60.*mV
+Vr_i = -60.*mV
+Vt_e = -50.*mV
+Vt_i = -51.*mV
 
 ascale = 1.0
-a_ee = 1.5 
-a_ie = 1.5 
-a_ei = -1.5 
-a_ii = -1.5 
+a_ee = 0.005
+a_ie = 0.005
+a_ei = 0.005
+a_ii = 0.005
 
-p_ee = 0.1 
-p_ie = 0.1
-p_ei = 0.1
+p_ee = 0.15
+p_ie = 0.15
+p_ei = 0.5
 p_ii = 0.5
 
 taupre = 15*ms
 taupost = 30*ms
-Aplus = 15*0.001
-Aminus = -7.5*0.001
-amax = 40*0.001
+Aplus = 0.0015
+Aminus = -0.00075
+amax = 2.0
 
-# Poisson
-external_mode = 'poisson'
-PInp_mode = 'indep' #pool
-NPInp = 400
+
+external_mode = 'memnoise'
+
+# poisson 
+PInp_mode = 'pool' #indep
+NPInp = 1000
 NPInp_1n = 10
-NPInp_inh = 80
+NPInp_inh = 1000
 NPInp_inh_1n = 10
-PInp_rate = 10*Hz
-PInp_inh_rate = 10*Hz
+PInp_rate = 1270*Hz
+PInp_inh_rate = 1250*Hz
 a_EPoi = 0.005
 a_IPoi = 0.
 p_EPoi = 0.2
 p_IPoi = 0.1
 
 # synapse noise
-syn_noise = 0
-syn_sigma = 0.01/second
-synEE_mod_dt = 25*ms
+syn_noise = 1
+syn_sigma = 1e-09/second
+synEE_mod_dt = 100*ms
 
 #STDP
 stdp_active = 1
-
 synEE_rec = 1
-
-ATotalMax = 40.*0.001
+ATotalMax = 0.2
 
 #iSTDP
-istdp_active = 0
-istdp_type = 'dbexp'
-synEI_rec = 0
-LTD_a = 0.02*10**(-3)
+istdp_active = 1
+istdp_type = 'sym' #'dbexp'
+synEI_rec = 1
+LTD_a = 0.000005
 
 # scaling
-scl_active = 0
-dt_synEE_scaling = 10*ms
-eta_scaling = 0.2
+scl_active = 1
+dt_synEE_scaling = 25*ms
+eta_scaling = 0.25
 
 # iscaling
-iscl_active = 0
-iATotalMax = 0.2
+iscl_active = 1
+iATotalMax = 0.7/6
 syn_iscl_rec = 0
 
 # structural plasticity
-strct_active = 0
+strct_active = 1
 strct_mode = 'zero'
 prn_thrshld = 0.001 * ATotalMax
-insert_P = 0.001
-strct_dt = 10*ms
-a_insert = 0.01 * ATotalMax
-p_inactivate = 0.25
-strct_c = 0.
+insert_P = 0.0002
+strct_dt = 1000*ms
+a_insert = 0.
+p_inactivate = 0.01
+strct_c = 0.002
 
 # inhibitory structural plasticity
 istrct_active = 0
-insert_P_ei = 0.001
+insert_P_ei = 0.00005
 p_inactivate_ei = 0.25
 
 
@@ -103,12 +103,12 @@ h_ip = 3*Hz
 
 
 #preT  = 100*second
-T1 = 5*second
-T2 = 5*second
-T3 = 5*second
-T4 = 5*second
+T1 = 1*second
+T2 = 10*second
+T3 = 1*second
+T4 = 1*second
 T5 = 5*second
-netw_dt = 0.1*ms
+dt = 0.1*ms
 n_threads = 1
 
 # neuron_method = 'euler'
@@ -122,36 +122,35 @@ getraces_rec = 1
 gitraces_rec = 1
 gfwdtraces_rec = 1
 rates_rec = 1
-GExc_stat_dt = 0.1*ms
-GInh_stat_dt = 0.1*ms
+GExc_stat_dt = 2.*ms
+GInh_stat_dt = 2.*ms
 
 synee_atraces_rec = 1
 synee_activetraces_rec = 0
 synee_Apretraces_rec = 1
 synee_Aposttraces_rec = 1
-n_synee_traces_rec = 20
-synEE_stat_dt = 0.1*ms
+n_synee_traces_rec = 1000
+synEE_stat_dt = 2.*ms
 
 synei_atraces_rec = 1
-synei_activetraces_rec = 0
+synei_activetraces_rec = 1
 synei_Apretraces_rec = 1
 synei_Aposttraces_rec = 1
-n_synei_traces_rec = 20
-synEI_stat_dt = 0.1*ms
+n_synei_traces_rec = 1000
+synEI_stat_dt = 2.*ms
 
 
+syn_scl_rec = 1
+stdp_rec_T = 1.*second
+scl_rec_T = 0.1*second
 
-syn_scl_rec = 0
-stdp_rec_T = 1*second
-scl_rec_T = 1*second
+synEEdynrec = 1
+synEIdynrec = 1
+syndynrec_dt = 1*second
+syndynrec_npts = 10
 
-synEEdynrec = 0
-synEIdynrec = 0
-syndynrec_dt = 5*second
-syndynrec_npts = 4
-
-turnover_rec = 0
-spks_rec = 0
+turnover_rec = 1
+spks_rec = 1
 synee_a_nrecpoints = 10
 synei_a_nrecpoints = 10
 
@@ -162,7 +161,7 @@ adjust_EI_insertP = 0
 csample_dt = 10*second
 
 # post processing
-pp_tcut = 100*second
+pp_tcut = 1*second
 
 # weight modes
 weight_mode = 'init'
