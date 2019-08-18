@@ -542,20 +542,40 @@ def run_net(tr):
         SynEE_a_dt = 2*(tr.T1+tr.T2+tr.T3+tr.T4+tr.T5)
     else:
         SynEE_a_dt = tr.sim.T2/tr.synee_a_nrecpoints
+
+        # make sure that choice of SynEE_a_dt does lead
+        # to execessively many recordings - this can
+        # happen if t1 >> t2.
+        estm_nrecs = int(T/SynEE_a_dt)
+        if estm_nrecs > tr.synee_a_nrecpoints:
+            print('''Estimated number of EE weight recordings (%d)
+            exceeds desired number (%d), increasing 
+            SynEE_a_dt''' % (estm_nrecs, tr.synee_a_nrecpoints))
+
+            SynEE_a_dt = T/tr.synee_a_nrecpoints
+        
         
     SynEE_a = StateMonitor(SynEE, ['a','syn_active'],
                            record=range(tr.N_e*(tr.N_e-1)),
                            dt=SynEE_a_dt,
                            when='end', order=100)
 
+    if tr.istrct_active:
+        record_range = range(tr.N_e*tr.N_i)
+    else:
+        record_range = range(len(sEI_src))
+
     if tr.synei_a_nrecpoints>0 and tr.sim.T2>0*second:
         SynEI_a_dt = tr.sim.T2/tr.synei_a_nrecpoints
 
-        if tr.istrct_active:
-            record_range = range(tr.N_e*tr.N_i)
-        else:
-            record_range = range(len(sEI_src))
+        estm_nrecs = int(T/SynEI_a_dt)
+        if estm_nrecs > 3*tr.synei_a_nrecpoints:
+            print('''Estimated number of EI weight recordings
+            (%d) exceeds desired number (%d), increasing 
+            SynEI_a_dt''' % (estm_nrecs, tr.synei_a_nrecpoints))
 
+            SynEI_a_dt = T/tr.synei_a_nrecpoints
+  
         SynEI_a = StateMonitor(SynEI, ['a','syn_active'],
                                record=record_range,
                                dt=SynEI_a_dt,
@@ -570,7 +590,8 @@ def run_net(tr):
                          GExc_spks, GInh_spks,
                          GExc_rate, GInh_rate])
 
-    if tr.synEEdynrec:
+    if (tr.synEEdynrec and
+        (2*tr.syndynrec_npts*tr.syndynrec_dt < tr.sim.T2) ):
         SynEE_dynrec = StateMonitor(SynEE, ['a'],
                                     record=range(tr.N_e*(tr.N_e-1)),
                                     dt=tr.syndynrec_dt,
@@ -580,7 +601,8 @@ def run_net(tr):
         netw_objects.extend([SynEE_dynrec])
 
             
-    if tr.synEIdynrec:
+    if (tr.synEIdynrec and
+        (2*tr.syndynrec_npts*tr.syndynrec_dt < tr.sim.T2) ):
         SynEI_dynrec = StateMonitor(SynEI, ['a'],
                                     record=record_range,
                                     dt=tr.syndynrec_dt,
@@ -715,8 +737,8 @@ def run_net(tr):
         with open(raw_dir+'synei_stat.p','wb') as pfile:
             pickle.dump(SynEI_stat.get_states(),pfile)
 
-    if ( tr.synEEdynrec or tr.synEIdynrec and
-         2*tr.syndynrec_npts*tr.syndynrec_dt < tr.sim.T2 ):
+    if ( (tr.synEEdynrec or tr.synEIdynrec) and
+         (2*tr.syndynrec_npts*tr.syndynrec_dt < tr.sim.T2) ):
 
         if tr.synEEdynrec:
             with open(raw_dir+'syneedynrec.p','wb') as pfile:

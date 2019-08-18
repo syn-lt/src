@@ -21,8 +21,10 @@ def run_T2_syndynrec(net, tr, netw_objects):
     
     # record the change of weights in a short time interval at
     # beginning and end of simulation
-    if ( tr.synEEdynrec or tr.synEIdynrec and
-         2*tr.syndynrec_npts*tr.syndynrec_dt < tr.sim.T2 ):
+    if ( (tr.synEEdynrec or tr.synEIdynrec) and
+         (2*tr.syndynrec_npts*tr.syndynrec_dt < tr.sim.T2) ):
+
+        print('Doing syndynrec!')
 
         if tr.synEEdynrec:
             net['SynEE_dynrec'].active=True
