@@ -271,10 +271,22 @@ def run_net(tr):
 
     else:
         print('istrct not active')
-        sEI_src, sEI_tar = generate_connections(tr.N_e, tr.N_i, tr.p_ei)
-        # print('Index Zero will not get inhibition')
-        # sEI_src, sEI_tar = np.array(sEI_src), np.array(sEI_tar)
-        # sEI_src, sEI_tar = sEI_src[sEI_tar > 0],sEI_tar[sEI_tar > 0]
+        if tr.weight_mode=='initial':
+            sEI_src, sEI_tar = generate_connections(tr.N_e, tr.N_i, tr.p_ei)
+            # print('Index Zero will not get inhibition')
+            # sEI_src, sEI_tar = np.array(sEI_src), np.array(sEI_tar)
+            # sEI_src, sEI_tar = sEI_src[sEI_tar > 0],sEI_tar[sEI_tar > 0]
+
+        elif tr.weight_mode=='load':
+            
+            fpath = os.path.join(tr.basepath, tr.weight_path)
+        
+            with open(fpath+'synei_a.p', 'rb') as pfile:
+                synei_a_init = pickle.load(pfile)
+
+            sEI_src, sEI_tar = synei_a_init['i'], synei_a_init['j']
+
+            
         SynEI.connect(i=sEI_src, j=sEI_tar)
 
         
