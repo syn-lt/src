@@ -32,6 +32,10 @@ def post_process_turnover(tr, connections='EE'):
         with open('builds/%.4d/raw/turnover%s.p' %(tr.v_idx,cn), 'rb') as pfile:
             turnover = pickle.load(pfile)
 
+        # abort if turnover empty
+        if len(turnover)==0:
+            return
+        
         # tr.N_e only used for s_id creation,
         # and since tr.N_i > tr.N_e,
         # tr.NE is correct for both 'EE' & 'EI'
@@ -192,7 +196,8 @@ def post_process_scl_rec(tr):
 
 def post_process(tr):
 
-    post_process_turnover(tr, 'EE')
+    if tr.strct_active:
+        post_process_turnover(tr, 'EE')
     if tr.istdp_active and tr.istrct_active:
         post_process_turnover(tr, 'EI')
 
