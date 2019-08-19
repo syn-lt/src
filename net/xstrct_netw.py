@@ -51,8 +51,19 @@ def init_synapses(syn_type, tr):
                 initial_weights = tr.a_ei
 
     elif tr.weight_mode=="load":
-        pass
-            
+
+        fpath = os.path.join(tr.basepath, tr.weight_path)
+
+        if syn_type=="EE":
+            syn_a_file = 'synee_a.p'
+        elif syn_type=="EI":
+            syn_a_file = 'synei_a.p'
+        
+        with open(fpath+syn_a_file, 'rb') as pfile:
+            syn_a_init = pickle.load(pfile)
+
+        initial_active = syn_a_init['syn_active'][-1,:]
+        initial_weights = syn_a_init['a'][-1,:]            
 
     return initial_active, initial_weights
 
@@ -547,7 +558,7 @@ def run_net(tr):
         # to execessively many recordings - this can
         # happen if t1 >> t2.
         estm_nrecs = int(T/SynEE_a_dt)
-        if estm_nrecs > tr.synee_a_nrecpoints:
+        if estm_nrecs > 3*tr.synee_a_nrecpoints:
             print('''Estimated number of EE weight recordings (%d)
             exceeds desired number (%d), increasing 
             SynEE_a_dt''' % (estm_nrecs, tr.synee_a_nrecpoints))
