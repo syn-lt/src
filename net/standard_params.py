@@ -164,5 +164,6 @@ csample_dt = 10*second
 pp_tcut = 1*second
 
 # weight modes
+basepath = '/home/hoffmann/lab/netw_mods/z2/'
 weight_mode = 'init'
 weight_path = 'weights/'
