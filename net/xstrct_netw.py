@@ -271,7 +271,7 @@ def run_net(tr):
 
     else:
         print('istrct not active')
-        if tr.weight_mode=='initial':
+        if tr.weight_mode=='init':
             sEI_src, sEI_tar = generate_connections(tr.N_e, tr.N_i, tr.p_ei)
             # print('Index Zero will not get inhibition')
             # sEI_src, sEI_tar = np.array(sEI_src), np.array(sEI_tar)
