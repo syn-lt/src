@@ -76,7 +76,7 @@ def run_T3_split(net, tr):
         net.run(tr.sim.T3/2, report='text',
                 report_period=300*second, profile=True)
         
-        # GInh.mu=tr.mu_i+0.5*mV
+        # net['GInh'].mu=tr.mu_i+0.75*mV
 
         net.run(tr.sim.T3/2, report='text',
                 report_period=300*second, profile=True)

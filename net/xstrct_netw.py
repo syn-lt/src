@@ -100,11 +100,11 @@ def run_net(tr):
     GExc = NeuronGroup(N=tr.N_e, model=neuron_model,
                        threshold=tr.nrnEE_thrshld,
                        reset=tr.nrnEE_reset, #method=tr.neuron_method,
-                       namespace=namespace)
+                       name='GExc', namespace=namespace)
     GInh = NeuronGroup(N=tr.N_i, model=neuron_model,
                        threshold ='V > Vt',
                        reset='V=Vr_i', #method=tr.neuron_method,
-                       namespace=namespace)
+                       name='GInh', namespace=namespace)
 
     if tr.external_mode=='memnoise':
         # GExc.mu, GInh.mu = [0.*mV] + (tr.N_e-1)*[tr.mu_e], tr.mu_i
