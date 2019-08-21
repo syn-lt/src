@@ -8,8 +8,7 @@ input_dict = {'run_id' : [0,1,2],
               'syn_scl_rec' : [0],
               'syn_iscl_rec' : [0],
               'synEE_rec': [0],
-              'synEI_rec': [0],
-              'syn_noise': [0]}
+              'synEI_rec': [0]}
 
 
 name = 'test_standard_net'
