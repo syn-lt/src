@@ -84,15 +84,17 @@ def add_params(tr):
 
     # scaling
     tr.f_add_parameter('netw.config.scl_active', prm.scl_active)
-    tr.f_add_parameter('netw.ATotalMax',        prm.ATotalMax)
-    tr.f_add_parameter('netw.dt_synEE_scaling', prm.dt_synEE_scaling)
-    tr.f_add_parameter('netw.eta_scaling', prm.eta_scaling)
+    tr.f_add_parameter('netw.ATotalMax',         prm.ATotalMax)
+    tr.f_add_parameter('netw.sig_ATotalMax',     prm.sig_ATotalMax)
+    tr.f_add_parameter('netw.dt_synEE_scaling',  prm.dt_synEE_scaling)
+    tr.f_add_parameter('netw.eta_scaling',       prm.eta_scaling)
     tr.f_add_parameter('netw.mod.synEE_scaling', mod.synEE_scaling)
 
     # iscaling
     tr.f_add_parameter('netw.config.iscl_active', prm.iscl_active)
     tr.f_add_parameter('netw.mod.synEI_scaling', mod.synEI_scaling)
     tr.f_add_parameter('netw.iATotalMax',        prm.iATotalMax)
+    tr.f_add_parameter('netw.sig_iATotalMax',    prm.sig_iATotalMax)
     tr.f_add_parameter('netw.syn_iscl_rec',        prm.syn_iscl_rec)
     
 
@@ -209,4 +211,7 @@ def add_params(tr):
     tr.f_add_parameter('netw.weight_path', prm.weight_path)
     
 
+    # seed
+    tr.f_add_parameter('netw.run_id', prm.run_id)
+    tr.f_add_parameter('netw.random_seed', prm.random_seed)
     

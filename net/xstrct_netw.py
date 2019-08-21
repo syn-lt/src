@@ -13,7 +13,8 @@ from pypet.brian2.parameter import Brian2MonitorResult
 from brian2 import NeuronGroup, StateMonitor, SpikeMonitor, run, \
                    PoissonGroup, Synapses, set_device, device, Clock, \
                    defaultclock, prefs, network_operation, Network, \
-                   PoissonGroup, PopulationRateMonitor, profiling_summary
+                   PoissonGroup, PopulationRateMonitor, profiling_summary, \
+                   seed
 
 from elephant.conversion import BinnedSpikeTrain
 from elephant.spike_train_correlation import corrcoef, cch
@@ -77,6 +78,10 @@ def run_net(tr):
         
     set_device('cpp_standalone', directory='./builds/%.4d'%(tr.v_idx),
                build_on_run=False)
+
+    # set brian 2 and numpy random seeds
+    seed(tr.random_seed)
+    np.random.seed(tr.random_seed+11)
 
     print("Started process with id ", str(tr.v_idx))
 
@@ -194,6 +199,8 @@ def run_net(tr):
                        %s''' %(synEE_mod, tr.synEE_scl_mod)
         synEI_mod = '''%s
                        %s''' %(synEI_mod, tr.synEI_scl_mod)
+
+        
         
 
     synEE_pre_mod = mod.synEE_pre
@@ -265,7 +272,9 @@ def run_net(tr):
 
     if tr.istdp_active and tr.istrct_active:
         print('istrct active')
-        sEI_src, sEI_tar = generate_full_connectivity(Nsrc=tr.N_i, Ntar=tr.N_e, same=False)
+        sEI_src, sEI_tar = generate_full_connectivity(Nsrc=tr.N_i,
+                                                      Ntar=tr.N_e,
+                                                      same=False)
         SynEI.connect(i=sEI_src, j=sEI_tar)
         SynEI.syn_active = 0
 
@@ -352,6 +361,13 @@ def run_net(tr):
         else:
             SynEE.scl_rec_start = T+10*second
             SynEE.scl_rec_max = T
+
+        if tr.sig_ATotalMax==0.:
+            GExc.ANormTar = tr.ATotalMax
+        else:
+            GExc.ANormTar = np.random.normal(loc=tr.ATotalMax,
+                                             scale=tr.sig_ATotalMax,
+                                             size=tr.N_e)
         
         SynEE.summed_updaters['AsumEE_post']._clock = Clock(
             dt=tr.dt_synEE_scaling)
@@ -368,7 +384,14 @@ def run_net(tr):
         else:
             SynEI.scl_rec_start = T+10*second
             SynEI.scl_rec_max = T
-        
+
+        if tr.sig_iATotalMax==0.:
+            GExc.iANormTar = tr.iATotalMax
+        else:
+            GExc.iANormTar = np.random.normal(loc=tr.iATotalMax,
+                                               scale=tr.sig_iATotalMax,
+                                               size=tr.N_e)
+            
         SynEI.summed_updaters['AsumEI_post']._clock = Clock(
             dt=tr.dt_synEE_scaling)
 

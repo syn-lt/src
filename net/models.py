@@ -8,6 +8,9 @@ condlif_poisson = '''
 
               AsumEE : 1
               AsumEI : 1
+
+              ANormTar : 1
+              iANormTar : 1
               '''
 
 
@@ -22,6 +25,9 @@ condlif_memnoise = '''
 
               sigma: volt (constant)
               mu : volt (constant)
+
+              ANormTar : 1
+              iANormTar : 1
               '''
 
 
@@ -123,11 +129,11 @@ synEI_post_rec = '''
 
 
 synEE_scaling = '''
-                a = syn_active*syn_scale(a, ATotalMax, AsumEE_post, eta_scaling, t, syn_active, scl_rec_start, scl_rec_max, i, j)
+                a = syn_active*syn_scale(a, ANormTar, AsumEE_post, eta_scaling, t, syn_active, scl_rec_start, scl_rec_max, i, j)
                 '''
 
 synEI_scaling = '''
-                a = syn_active*syn_EI_scale(a, iATotalMax, AsumEI_post, eta_scaling, t, syn_active, scl_rec_start, scl_rec_max, i, j)
+                a = syn_active*syn_EI_scale(a, iANormTar, AsumEI_post, eta_scaling, t, syn_active, scl_rec_start, scl_rec_max, i, j)
                 '''
 
 

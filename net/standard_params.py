@@ -62,6 +62,7 @@ synEE_mod_dt = 100*ms
 stdp_active = 1
 synEE_rec = 1
 ATotalMax = 0.2
+sig_ATotalMax = 0.05
 
 #iSTDP
 istdp_active = 1
@@ -77,6 +78,7 @@ eta_scaling = 0.25
 # iscaling
 iscl_active = 1
 iATotalMax = 0.7/6
+sig_iATotalMax = 0.025
 syn_iscl_rec = 0
 
 # structural plasticity
@@ -167,3 +169,7 @@ pp_tcut = 1*second
 basepath = '/home/hoffmann/lab/netw_mods/z2/'
 weight_mode = 'init'
 weight_path = 'weights/'
+
+run_id = 0 # doesn't do anything, added for running 
+           # multiple copies for testing
+random_seed = 578
