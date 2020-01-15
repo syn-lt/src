@@ -1027,20 +1027,20 @@ def run_net(tr):
     #os.chdir('./analysis/file_based/')
 
     if tr.istdp_active:
-        from code.analysis.overview_winh import overview_figure
+        from src.analysis.overview_winh import overview_figure
         overview_figure('builds/%.4d'%(tr.v_idx), namespace)
     else:
-        from code.analysis.overview import overview_figure
+        from src.analysis.overview import overview_figure
         overview_figure('builds/%.4d'%(tr.v_idx), namespace)
 
 
-    from code.analysis.synw_fb import synw_figure
+    from src.analysis.synw_fb import synw_figure
     synw_figure('builds/%.4d'%(tr.v_idx), namespace)
     if tr.istdp_active:
         synw_figure('builds/%.4d'%(tr.v_idx),
                     namespace, connections='EI')
 
-    from code.analysis.synw_log_fb import synw_log_figure
+    from src.analysis.synw_log_fb import synw_log_figure
     synw_log_figure('builds/%.4d'%(tr.v_idx), namespace)
     if tr.istdp_active:
         synw_log_figure('builds/%.4d'%(tr.v_idx),

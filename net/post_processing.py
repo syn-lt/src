@@ -4,14 +4,14 @@ import numpy as np
 
 from brian2.units import ms,mV,second,Hz
 
-from code.analysis.methods.process_survival import extract_survival
-from code.analysis.methods.process_turnover_pd import extract_lifetimes
+from src.analysis.methods.process_survival import extract_survival
+from src.analysis.methods.process_turnover_pd import extract_lifetimes
 
-from code.analysis.srvprb_all import srvprb_all_figure
-from code.analysis.srvprb_EE import srvprb_EE_figure
-from code.analysis.srvprb_EI import srvprb_EI_figure
+from src.analysis.srvprb_all import srvprb_all_figure
+from src.analysis.srvprb_EE import srvprb_EE_figure
+from src.analysis.srvprb_EI import srvprb_EI_figure
 
-from code.analysis.methods.resample_dA import resample_spk_register, \
+from src.analysis.methods.resample_dA import resample_spk_register, \
                                          resample_scl_deltas
 
 
