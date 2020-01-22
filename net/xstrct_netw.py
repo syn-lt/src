@@ -181,11 +181,21 @@ def run_net(tr):
 
         
     if tr.syn_noise:
-        synEE_mod = '''%s 
-                       %s''' %(tr.synEE_noise, tr.synEE_mod)
 
-        synEI_mod = '''%s 
-                       %s''' %(tr.synEE_noise, tr.synEE_mod)
+        if tr.syn_noise_type=='additive':
+            synEE_mod = '''%s 
+                           %s''' %(tr.synEE_noise_add, tr.synEE_mod)
+
+            synEI_mod = '''%s 
+                           %s''' %(tr.synEE_noise_add, tr.synEE_mod)
+
+        elif tr.syn_noise_type=='multiplicative':
+            synEE_mod = '''%s 
+                           %s''' %(tr.synEE_noise_mult, tr.synEE_mod)
+
+            synEI_mod = '''%s 
+                           %s''' %(tr.synEE_noise_mult, tr.synEE_mod)
+
 
     else:
         synEE_mod = '''%s 

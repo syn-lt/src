@@ -55,6 +55,7 @@ p_IPoi = 0.1
 
 # synapse noise
 syn_noise = 1
+syn_noise_type = 'additive'
 syn_sigma = 1e-09/second
 synEE_mod_dt = 100*ms
 
