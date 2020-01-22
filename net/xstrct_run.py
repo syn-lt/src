@@ -2,7 +2,7 @@ import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as pl
 
-import os, git
+import os, git, random
 
 from pypet import Environment, Trajectory
 import pypet.pypetexceptions as pex
@@ -22,6 +22,7 @@ import argparse
 parser = argparse.ArgumentParser()
 parser.add_argument("--ncores", "-c", help="No. cores", nargs=1)
 parser.add_argument("--testrun", "-t", action='store_true')
+parser.add_argument("--postprocess", "-x", action='store_true')
 args = parser.parse_args()
 ncores = int(args.ncores[0])
 
@@ -44,7 +45,12 @@ filename = os.path.join(os.getcwd(), 'data/', name+'.hdf5')
 
 # if not the first run, tr2 will be merged later
 label = 'tr1'
-    
+
+# if only post processing, can't use the same label
+# (generates HDF5 error)
+if args.postprocess:
+    label += '_postprocess-%.6d' % random.randint(0, 999999)
+
 env = Environment(trajectory=label,
                   add_time=False,
                   filename=filename,
@@ -69,10 +75,18 @@ tr.f_explore(explore_dict)
 
 
 def run_sim(tr):
-    run_net(tr)
+    try:
+        run_net(tr)
+    except TimeoutError:
+        print("Unable to plot, must run analysis manually")
+
     post_process(tr)
-    
-env.run(run_sim)
+
+
+if args.postprocess:
+    env.run(post_process)
+else:
+    env.run(run_sim)
 
 
 
