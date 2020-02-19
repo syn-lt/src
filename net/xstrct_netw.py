@@ -756,9 +756,8 @@ def run_net(tr):
     if tr.istdp_active:
         SynEI.stdp_active=0
 
-    set_active(GExc_spks)
-    set_active(GInh_spks)
-
+    set_active(GExc_rate, GInh_rate)
+    set_active(GExc_spks, GInh_spks)
 
     run_T5(net, tr)
     
