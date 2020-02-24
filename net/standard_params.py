@@ -5,6 +5,8 @@ N_e = 400
 N_i = int(0.2*N_e)
 
 tau = 20.*ms                 # membrane time constant
+
+syn_cond_mode = 'exp'
 tau_e = 5.*ms                # EPSP time constant
 tau_i = 10.*ms               # IPSP time constant
 El = -60.*mV                 # resting value

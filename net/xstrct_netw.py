@@ -100,7 +100,15 @@ def run_net(tr):
     if tr.external_mode=='memnoise':
         neuron_model = tr.condlif_memnoise
     elif tr.external_mode=='poisson':
-        neuron_model = tr.condlif_poisson
+        raise NotImplementedError
+        #neuron_model = tr.condlif_poisson
+
+    if tr.syn_cond_mode=='exp':
+        neuron_model += tr.syn_cond_exp
+        print("Using exp mode")
+    elif tr.syn_cond_mode=='alpha':
+        neuron_model += tr.syn_cond_alpha
+        print("Using alpha mode")
 
     GExc = NeuronGroup(N=tr.N_e, model=neuron_model,
                        threshold=tr.nrnEE_thrshld,
@@ -212,8 +220,11 @@ def run_net(tr):
 
         
         
-
-    synEE_pre_mod = mod.synEE_pre
+    if tr.syn_cond_mode=='exp':
+        synEE_pre_mod = mod.synEE_pre_exp
+    elif tr.syn_cond_mode=='alpha':
+        synEE_pre_mod = mod.synEE_pre_alpha
+    
     synEE_post_mod = mod.syn_post
     
     if tr.stdp_active:

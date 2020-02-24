@@ -17,8 +17,6 @@ condlif_poisson = '''
 condlif_memnoise = '''
               dV/dt = (El-V + ge*(Ee-V) + gi*(Ei-V))/tau +  mu/tau + (sigma * xi) / (tau **.5) : volt
               Vt : volt 
-              dge /dt = -ge/tau_e : 1
-              dgi /dt = -gi/tau_i : 1
 
               AsumEE : 1
               AsumEI : 1
@@ -29,6 +27,19 @@ condlif_memnoise = '''
               ANormTar : 1
               iANormTar : 1
               '''
+
+syn_cond_exp = '''
+               dge /dt = -ge/tau_e : 1
+               dgi /dt = -gi/tau_i : 1
+               '''
+
+syn_cond_alpha = '''
+                 dge /dt = (xge-ge)/tau_e : 1
+                 dxge /dt = -xge/tau_e : 1
+
+                 dgi /dt = -gi/tau_i : 1
+                 '''
+
 
 
 # refractory period???
@@ -80,10 +91,16 @@ synEE_p_activate = '''
                    a = syn_active*a
                    '''
 
-synEE_pre = '''
-            ge_post += syn_active*a
-            Apre = syn_active*Aplus
-            '''
+synEE_pre_exp = '''
+                ge_post += syn_active*a
+                Apre = syn_active*Aplus
+                '''
+
+synEE_pre_alpha = '''
+                  xge_post += syn_active*a
+                  Apre = syn_active*Aplus
+                  '''
+
 
 synEI_pre = '''
             gi_post += syn_active*a
