@@ -6,6 +6,7 @@ from brian2.units import ms,mV,second,Hz
 
 from src.analysis.methods.process_survival import extract_survival
 from src.analysis.methods.process_turnover_pd import extract_lifetimes
+from src.analysis.methods.process_turnover_statistics import get_insert_and_prune_counts
 
 from src.analysis.srvprb_all import srvprb_all_figure
 from src.analysis.srvprb_EE import srvprb_EE_figure
@@ -121,6 +122,31 @@ def post_process_turnover(tr, connections='EE'):
 
 
 
+def post_process_per_neuron_turnover_counts(tr, connections='EE'):
+
+    if connections=='EE':
+        cn=''
+    elif connections=='EI':
+        cn='_EI'
+
+    t_cut = tr.pp_tcut
+    t_max = tr.T1+tr.T2+tr.T3+tr.T4
+
+    with open('builds/%.4d/raw/turnover%s.p' %(tr.v_idx,cn), 'rb') as pfile:
+        turnover = pickle.load(pfile)
+        
+    ins_c, prn_c = get_insert_and_prune_counts(turnover, tr.N_e, t_cut, t_max)
+
+    bpath = 'builds/%.4d' %(tr.v_idx)
+    
+    with open(bpath+'/raw/ins-prn_counts%s' %cn + '.p', 'wb') as pfile:
+        out = {'t_max': t_max, 't_cut': t_cut,
+               'ins_c': ins_c, 'prn_c': prn_c}
+        pickle.dump(out, pfile)
+    
+
+
+
 def post_process_stdp_rec(tr):
 
     bpath = 'builds/%.4d' %(tr.v_idx)
@@ -201,6 +227,12 @@ def post_process(tr):
     if tr.istdp_active and tr.istrct_active:
         post_process_turnover(tr, 'EI')
 
+    if tr.strct_active:
+        post_process_per_neuron_turnover_counts(tr, 'EE')
+    if tr.istdp_active and tr.istrct_active:
+        post_process_per_neuron_turnover_counts(tr, 'EI')
+
+        
     srvprb_EE_figure('builds/%.4d'%(tr.v_idx))
     srvprb_EI_figure('builds/%.4d'%(tr.v_idx))
     srvprb_all_figure('builds/%.4d'%(tr.v_idx))
