@@ -262,10 +262,10 @@ def run_net(tr):
 
     if tr.istdp_active and tr.synEI_rec:
 
-            synEI_pre_mod  = '''%s 
-                                %s''' %(synEI_pre_mod, mod.synEI_pre_rec)
-            synEI_post_mod = '''%s 
-                                %s''' %(synEI_post_mod, mod.synEI_post_rec)
+        synEI_pre_mod  = '''%s 
+                            %s''' %(synEI_pre_mod, mod.synEI_pre_rec)
+        synEI_post_mod = '''%s 
+                            %s''' %(synEI_post_mod, mod.synEI_post_rec)
             
     if tr.istdp_active:        
         SynEI = Synapses(target=GExc, source=GInh, model=synEI_mod,
