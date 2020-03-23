@@ -70,6 +70,8 @@ sig_ATotalMax = 0.05
 #iSTDP
 istdp_active = 1
 istdp_type = 'sym' #'dbexp'
+taupre_EI = 20*ms
+taupost_EI = 20*ms
 synEI_rec = 1
 LTD_a = 0.000005
 

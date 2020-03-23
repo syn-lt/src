@@ -239,12 +239,14 @@ def run_net(tr):
         synEE_post_mod = '''%s 
                             %s''' %(synEE_post_mod, mod.synEE_post_rec)
 
-
         
     # E<-E advanced synapse model
     SynEE = Synapses(target=GExc, source=GExc, model=synEE_mod,
                      on_pre=synEE_pre_mod, on_post=synEE_post_mod,
                      namespace=namespace, dt=tr.synEE_mod_dt)
+
+
+    
 
     if tr.istdp_active and tr.istdp_type=='dbexp':
 
@@ -271,6 +273,8 @@ def run_net(tr):
         SynEI = Synapses(target=GExc, source=GInh, model=synEI_mod,
                          on_pre=synEI_pre_mod, on_post=synEI_post_mod,
                          namespace=namespace, dt=tr.synEE_mod_dt)
+
+        
     else:
         model = '''a : 1
                    syn_active : 1'''
@@ -289,7 +293,7 @@ def run_net(tr):
     sEE_src, sEE_tar = generate_full_connectivity(tr.N_e, same=True)
     SynEE.connect(i=sEE_src, j=sEE_tar)
     SynEE.syn_active = 0
-
+    SynEE.taupre, SynEE.taupost = tr.taupre, tr.taupost
 
     if tr.istdp_active and tr.istrct_active:
         print('istrct active')
@@ -318,6 +322,10 @@ def run_net(tr):
 
             
         SynEI.connect(i=sEI_src, j=sEI_tar)
+
+
+    if tr.istdp_active:        
+        SynEI.taupre, SynEI.taupost = tr.taupre_EI, tr.taupost_EI
 
         
     sIE_src, sIE_tar = generate_connections(tr.N_i, tr.N_e, tr.p_ie)

@@ -65,6 +65,9 @@ synEE_noise_mult  = '''da/dt = syn_active*a*syn_sigma**0.5*xi : 1
 synEE_mod = '''            
             syn_active : integer
 
+            taupre : second (shared) 
+            taupost : second (shared) 
+
             dApre  /dt = -Apre/taupre  : 1 (event-driven)
             dApost /dt = -Apost/taupost : 1 (event-driven)
 
