@@ -115,7 +115,7 @@ def run_net(tr):
         print("Using EI exp mode")
     elif tr.syn_cond_mode_EI=='alpha':
         neuron_model += tr.syn_cond_EI_alpha
-        print("Using alpha mode")
+        print("Using EI alpha mode")
 
     GExc = NeuronGroup(N=tr.N_e, model=neuron_model,
                        threshold=tr.nrnEE_thrshld,
