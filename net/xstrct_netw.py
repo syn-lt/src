@@ -104,10 +104,17 @@ def run_net(tr):
         #neuron_model = tr.condlif_poisson
 
     if tr.syn_cond_mode=='exp':
-        neuron_model += tr.syn_cond_exp
-        print("Using exp mode")
+        neuron_model += tr.syn_cond_EE_exp
+        print("Using EE exp mode")
     elif tr.syn_cond_mode=='alpha':
-        neuron_model += tr.syn_cond_alpha
+        neuron_model += tr.syn_cond_EE_alpha
+        print("Using EE alpha mode")
+
+    if tr.syn_cond_mode_EI=='exp':
+        neuron_model += tr.syn_cond_EI_exp
+        print("Using EI exp mode")
+    elif tr.syn_cond_mode_EI=='alpha':
+        neuron_model += tr.syn_cond_EI_alpha
         print("Using alpha mode")
 
     GExc = NeuronGroup(N=tr.N_e, model=neuron_model,
@@ -250,15 +257,25 @@ def run_net(tr):
 
     if tr.istdp_active and tr.istdp_type=='dbexp':
 
+        if tr.syn_cond_mode_EI=='exp':
+            EI_pre_mod = mod.synEI_pre_exp
+        elif tr.syn_cond_mode_EI=='alpha':
+            EI_pre_mod = mod.synEI_pre_alpha
+
         synEI_pre_mod  = '''%s 
-                            %s''' %(mod.synEI_pre, mod.syn_pre_STDP)
+                            %s''' %(EI_pre_mod, mod.syn_pre_STDP)
         synEI_post_mod = '''%s 
                             %s''' %(mod.syn_post, mod.syn_post_STDP)
 
     elif tr.istdp_active and tr.istdp_type=='sym':
 
+        if tr.syn_cond_mode_EI=='exp':
+            EI_pre_mod = mod.synEI_pre_sym_exp
+        elif tr.syn_cond_mode_EI=='alpha':
+            EI_pre_mod = mod.synEI_pre_sym_alpha
+
         synEI_pre_mod  = '''%s 
-                            %s''' %(mod.synEI_pre_sym, mod.syn_pre_STDP)
+                            %s''' %(EI_pre_mod, mod.syn_pre_STDP)
         synEI_post_mod = '''%s 
                             %s''' %(mod.synEI_post_sym, mod.syn_post_STDP)
 

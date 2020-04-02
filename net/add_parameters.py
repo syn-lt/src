@@ -13,6 +13,7 @@ def add_params(tr):
     tr.f_add_parameter('netw.N_i', prm.N_i)
 
     tr.f_add_parameter('netw.config.syn_cond_mode',   prm.syn_cond_mode)
+    tr.f_add_parameter('netw.config.syn_cond_mode_EI',   prm.syn_cond_mode_EI)
     tr.f_add_parameter('netw.tau',   prm.tau)
     tr.f_add_parameter('netw.tau_e', prm.tau_e)
     tr.f_add_parameter('netw.tau_i', prm.tau_i)
@@ -124,8 +125,10 @@ def add_params(tr):
     
     tr.f_add_parameter('netw.mod.condlif_poisson',   mod.condlif_poisson)
     tr.f_add_parameter('netw.mod.condlif_memnoise',   mod.condlif_memnoise)
-    tr.f_add_parameter('netw.mod.syn_cond_exp',   mod.syn_cond_exp)
-    tr.f_add_parameter('netw.mod.syn_cond_alpha',   mod.syn_cond_alpha)
+    tr.f_add_parameter('netw.mod.syn_cond_EE_exp',   mod.syn_cond_EE_exp)
+    tr.f_add_parameter('netw.mod.syn_cond_EE_alpha',   mod.syn_cond_EE_alpha)
+    tr.f_add_parameter('netw.mod.syn_cond_EI_exp',   mod.syn_cond_EI_exp)
+    tr.f_add_parameter('netw.mod.syn_cond_EI_alpha',   mod.syn_cond_EI_alpha)
     tr.f_add_parameter('netw.mod.nrnEE_thrshld', mod.nrnEE_thrshld)
     tr.f_add_parameter('netw.mod.nrnEE_reset',   mod.nrnEE_reset)
     tr.f_add_parameter('netw.mod.synEE_mod',     mod.synEE_mod)

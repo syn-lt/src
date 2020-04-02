@@ -28,19 +28,23 @@ condlif_memnoise = '''
               iANormTar : 1
               '''
 
-syn_cond_exp = '''
-               dge /dt = -ge/tau_e : 1
-               dgi /dt = -gi/tau_i : 1
-               '''
+syn_cond_EE_exp = '''
+                  dge /dt = -ge/tau_e : 1
+                  '''
 
-syn_cond_alpha = '''
-                 dge /dt = (xge-ge)/tau_e : 1
-                 dxge /dt = -xge/tau_e : 1
+syn_cond_EI_exp = '''
+                  dgi /dt = -gi/tau_i : 1
+                  '''
 
-                 dgi /dt = -gi/tau_i : 1
-                 '''
+syn_cond_EE_alpha = '''
+                    dge /dt = (xge-ge)/tau_e : 1
+                    dxge /dt = -xge/tau_e : 1
+                    '''
 
-
+syn_cond_EI_alpha = '''
+                    dgi /dt = (xgi-gi)/tau_i : 1
+                    dxgi /dt = -xgi/tau_i : 1
+                    '''
 
 # refractory period???
 
@@ -94,10 +98,10 @@ synEE_p_activate = '''
                    a = syn_active*a
                    '''
 
-synEE_pre_exp = '''
-                ge_post += syn_active*a
-                Apre = syn_active*Aplus
-                '''
+synEE_pre_exp   = '''
+                  ge_post += syn_active*a
+                  Apre = syn_active*Aplus
+                  '''
 
 synEE_pre_alpha = '''
                   xge_post += syn_active*a
@@ -105,16 +109,28 @@ synEE_pre_alpha = '''
                   '''
 
 
-synEI_pre = '''
-            gi_post += syn_active*a
-            Apre = syn_active*Aplus
-            '''
+synEI_pre_exp   = '''
+                  gi_post += syn_active*a
+                  Apre = syn_active*Aplus
+                  '''
 
-synEI_pre_sym = '''
-                gi_post += syn_active*a
-                Apre = syn_active*Aplus
-                a = a - stdp_active*LTD_a
-                '''
+synEI_pre_alpha = '''
+                  xgi_post += syn_active*a
+                  Apre = syn_active*Aplus
+                  '''
+
+
+synEI_pre_sym_exp   = '''
+                      gi_post += syn_active*a
+                      Apre = syn_active*Aplus
+                      a = a - stdp_active*LTD_a
+                      '''
+
+synEI_pre_sym_alpha = '''
+                       xgi_post += syn_active*a
+                       Apre = syn_active*Aplus
+                       a = a - stdp_active*LTD_a
+                       '''
 
 
 syn_pre_STDP = '''
