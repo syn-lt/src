@@ -222,15 +222,17 @@ def post_process_scl_rec(tr):
 
 def post_process(tr):
 
-    if tr.strct_active:
-        post_process_turnover(tr, 'EE')
-    if tr.istdp_active and tr.istrct_active:
-        post_process_turnover(tr, 'EI')
+    if tr.turnover_rec:
 
-    if tr.strct_active:
-        post_process_per_neuron_turnover_counts(tr, 'EE')
-    if tr.istdp_active and tr.istrct_active:
-        post_process_per_neuron_turnover_counts(tr, 'EI')
+        if tr.strct_active:
+            post_process_turnover(tr, 'EE')
+        if tr.istdp_active and tr.istrct_active:
+            post_process_turnover(tr, 'EI')
+
+        if tr.strct_active:
+            post_process_per_neuron_turnover_counts(tr, 'EE')
+        if tr.istdp_active and tr.istrct_active:
+            post_process_per_neuron_turnover_counts(tr, 'EI')
 
         
     srvprb_EE_figure('builds/%.4d'%(tr.v_idx))
