@@ -180,11 +180,16 @@ def run_net(tr):
 
 
         if tr.PInp_mode == 'pool':
+
             PInp_inh = PoissonGroup(tr.NPInp_inh, rates=tr.PInp_inh_rate,
-                                    namespace=namespace, name='poissongroup_inh')
-            sPNInh = Synapses(target=GInh, source=PInp_inh, model=tr.poisson_mod,
-                               on_pre='gfwd_post += a_EPoi',
-                               namespace=namespace)
+                                    namespace=namespace,
+                                    name='poissongroup_inh')
+            
+            sPNInh = Synapses(target=GInh, source=PInp_inh,
+                              model=tr.poisson_mod,
+                              on_pre='gfwd_post += a_EPoi',
+                              namespace=namespace)
+            
             sPNInh_src, sPNInh_tar = generate_N_connections(N_tar=tr.N_i,
                                                             N_src=tr.NPInp_inh,
                                                             N=tr.NPInp_inh_1n)
@@ -194,9 +199,12 @@ def run_net(tr):
 
             PInp_inh = PoissonGroup(tr.N_i, rates=tr.PInp_inh_rate,
                                     namespace=namespace)
-            sPNInh = Synapses(target=GInh, source=PInp_inh, model=tr.poisson_mod,
+
+            sPNInh = Synapses(target=GInh, source=PInp_inh,
+                              model=tr.poisson_mod,
                               on_pre='gfwd_post += a_EPoi',
                               namespace=namespace)
+
             sPNInh_src, sPNInh_tar = range(tr.N_i), range(tr.N_i)
 
 
