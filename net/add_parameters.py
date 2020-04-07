@@ -19,7 +19,9 @@ def add_params(tr):
     tr.f_add_parameter('netw.tau_i', prm.tau_i)
     tr.f_add_parameter('netw.tau_e_rise', prm.tau_e_rise)
     tr.f_add_parameter('netw.tau_i_rise', prm.tau_i_rise)
-
+    tr.f_add_parameter('netw.norm_f_EE', prm.norm_f_EE)
+    tr.f_add_parameter('netw.norm_f_EI', prm.norm_f_EI)
+    
     tr.f_add_parameter('netw.El',    prm.El)
     tr.f_add_parameter('netw.Ee',    prm.Ee)
     tr.f_add_parameter('netw.Ei',    prm.Ei)

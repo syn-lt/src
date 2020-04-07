@@ -116,12 +116,12 @@ synEE_pre_exp   = '''
                   '''
 
 synEE_pre_alpha = '''
-                  xge_post += syn_active*a
+                  xge_post += syn_active*a/norm_f_EE
                   Apre = syn_active*Aplus
                   '''
 
 synEE_pre_biexp = '''
-                  xge_post += syn_active*a
+                  xge_post += syn_active*a/norm_f_EE
                   Apre = syn_active*Aplus
                   '''
 
@@ -132,12 +132,12 @@ synEI_pre_exp   = '''
                   '''
 
 synEI_pre_alpha = '''
-                  xgi_post += syn_active*a
+                  xgi_post += syn_active*a/norm_f_EI
                   Apre = syn_active*Aplus
                   '''
 
 synEI_pre_biexp = '''
-                  xgi_post += syn_active*a
+                  xgi_post += syn_active*a/norm_f_EI
                   Apre = syn_active*Aplus
                   '''
 
@@ -149,13 +149,13 @@ synEI_pre_sym_exp   = '''
                       '''
 
 synEI_pre_sym_alpha = '''
-                       xgi_post += syn_active*a
+                       xgi_post += syn_active*a/norm_f_EI
                        Apre = syn_active*Aplus
                        a = a - stdp_active*LTD_a
                        '''
 
 synEI_pre_sym_biexp = '''
-                       xgi_post += syn_active*a
+                       xgi_post += syn_active*a/norm_f_EI
                        Apre = syn_active*Aplus
                        a = a - stdp_active*LTD_a
                        '''
