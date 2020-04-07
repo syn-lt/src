@@ -109,6 +109,11 @@ def run_net(tr):
     elif tr.syn_cond_mode=='alpha':
         neuron_model += tr.syn_cond_EE_alpha
         print("Using EE alpha mode")
+    elif tr.syn_cond_mode=='biexp':
+        neuron_model += tr.syn_cond_EE_biexp
+        namespace['invpeakEE'] = (tr.tau_e / tr.tau_e_rise) ** \
+            (tr.tau_e_rise / (tr.tau_e - tr.tau_e_rise))
+        print("Using EE biexp mode")
 
     if tr.syn_cond_mode_EI=='exp':
         neuron_model += tr.syn_cond_EI_exp
@@ -116,6 +121,12 @@ def run_net(tr):
     elif tr.syn_cond_mode_EI=='alpha':
         neuron_model += tr.syn_cond_EI_alpha
         print("Using EI alpha mode")
+    elif tr.syn_cond_mode_EI=='biexp':
+        neuron_model += tr.syn_cond_EI_biexp
+        namespace['invpeakEI'] = (tr.tau_i / tr.tau_i_rise) ** \
+            (tr.tau_i_rise / (tr.tau_i - tr.tau_i_rise))
+        print("Using EI biexp mode")
+
 
     GExc = NeuronGroup(N=tr.N_e, model=neuron_model,
                        threshold=tr.nrnEE_thrshld,
@@ -231,6 +242,9 @@ def run_net(tr):
         synEE_pre_mod = mod.synEE_pre_exp
     elif tr.syn_cond_mode=='alpha':
         synEE_pre_mod = mod.synEE_pre_alpha
+    elif tr.syn_cond_mode=='biexp':
+        synEE_pre_mod = mod.synEE_pre_biexp
+
     
     synEE_post_mod = mod.syn_post
     
@@ -261,6 +275,9 @@ def run_net(tr):
             EI_pre_mod = mod.synEI_pre_exp
         elif tr.syn_cond_mode_EI=='alpha':
             EI_pre_mod = mod.synEI_pre_alpha
+        elif tr.syn_cond_mode_EI=='biexp':
+            EI_pre_mod = mod.synEI_pre_biexp
+            
 
         synEI_pre_mod  = '''%s 
                             %s''' %(EI_pre_mod, mod.syn_pre_STDP)
@@ -273,6 +290,9 @@ def run_net(tr):
             EI_pre_mod = mod.synEI_pre_sym_exp
         elif tr.syn_cond_mode_EI=='alpha':
             EI_pre_mod = mod.synEI_pre_sym_alpha
+        elif tr.syn_cond_mode_EI=='biexp':
+            EI_pre_mod = mod.synEI_pre_sym_biexp
+            
 
         synEI_pre_mod  = '''%s 
                             %s''' %(EI_pre_mod, mod.syn_pre_STDP)

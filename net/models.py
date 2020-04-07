@@ -41,10 +41,22 @@ syn_cond_EE_alpha = '''
                     dxge /dt = -xge/tau_e : 1
                     '''
 
+syn_cond_EE_biexp = '''
+                    dge/dt = (invpeakEE*xge-ge)/tau_e_rise : 1
+                    dxge/dt = -xge/tau_e                   : 1
+                    '''
+
 syn_cond_EI_alpha = '''
                     dgi /dt = (xgi-gi)/tau_i : 1
                     dxgi /dt = -xgi/tau_i : 1
                     '''
+
+syn_cond_EI_biexp = '''
+                    dgi/dt = (invpeakEI*xgi-gi)/tau_i_rise : 1
+                    dxgi/dt = -xgi/tau_i                   : 1
+                    '''
+
+
 
 # refractory period???
 
@@ -108,6 +120,11 @@ synEE_pre_alpha = '''
                   Apre = syn_active*Aplus
                   '''
 
+synEE_pre_biexp = '''
+                  xge_post += syn_active*a
+                  Apre = syn_active*Aplus
+                  '''
+
 
 synEI_pre_exp   = '''
                   gi_post += syn_active*a
@@ -115,6 +132,11 @@ synEI_pre_exp   = '''
                   '''
 
 synEI_pre_alpha = '''
+                  xgi_post += syn_active*a
+                  Apre = syn_active*Aplus
+                  '''
+
+synEI_pre_biexp = '''
                   xgi_post += syn_active*a
                   Apre = syn_active*Aplus
                   '''
@@ -127,6 +149,12 @@ synEI_pre_sym_exp   = '''
                       '''
 
 synEI_pre_sym_alpha = '''
+                       xgi_post += syn_active*a
+                       Apre = syn_active*Aplus
+                       a = a - stdp_active*LTD_a
+                       '''
+
+synEI_pre_sym_biexp = '''
                        xgi_post += syn_active*a
                        Apre = syn_active*Aplus
                        a = a - stdp_active*LTD_a
