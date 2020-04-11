@@ -134,6 +134,9 @@ getraces_rec = 1
 gitraces_rec = 1
 gfwdtraces_rec = 1
 rates_rec = 1
+
+nrec_GExc_stat = 3
+nrec_GInh_stat = 3
 GExc_stat_dt = 2.*ms
 GInh_stat_dt = 2.*ms
 

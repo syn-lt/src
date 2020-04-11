@@ -173,6 +173,9 @@ def add_params(tr):
     tr.f_add_parameter('netw.rec.gitraces_rec', prm.gitraces_rec)
     tr.f_add_parameter('netw.rec.gfwdtraces_rec', prm.gfwdtraces_rec)
     tr.f_add_parameter('netw.rec.rates_rec', prm.rates_rec)
+
+    tr.f_add_parameter('netw.rec.nrec_GExc_stat', prm.nrec_GExc_stat)
+    tr.f_add_parameter('netw.rec.nrec_GInh_stat', prm.nrec_GInh_stat)
     tr.f_add_parameter('netw.rec.GExc_stat_dt', prm.GExc_stat_dt)
     tr.f_add_parameter('netw.rec.GInh_stat_dt', prm.GInh_stat_dt)
 

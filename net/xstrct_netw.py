@@ -590,9 +590,11 @@ def run_net(tr):
 
     GInh_recvars = GExc_recvars
     
-    GExc_stat = StateMonitor(GExc, GExc_recvars, record=[0,1,2],
+    GExc_stat = StateMonitor(GExc, GExc_recvars,
+                             record=list(range(tr.nrec_GExc_stat)),
                              dt=tr.GExc_stat_dt)
-    GInh_stat = StateMonitor(GInh, GInh_recvars, record=[0,1,2],
+    GInh_stat = StateMonitor(GInh, GInh_recvars,
+                             record=list(range(tr.nrec_GInh_stat)),
                              dt=tr.GInh_stat_dt)
     
     # SynEE stat
