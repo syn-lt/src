@@ -213,6 +213,7 @@ def add_params(tr):
     tr.f_add_parameter('netw.rec.synEI_stat_dt', prm.synEI_stat_dt)
 
     tr.f_add_parameter('netw.rec.spks_rec', prm.spks_rec)
+    tr.f_add_parameter('netw.rec.T2_spks_rec', prm.T2_spks_rec)
     tr.f_add_parameter('netw.synee_a_nrecpoints', prm.synee_a_nrecpoints)
     tr.f_add_parameter('netw.synei_a_nrecpoints', prm.synei_a_nrecpoints)
     

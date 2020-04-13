@@ -777,6 +777,9 @@ def run_net(tr):
     #   1) turnover 2) C_stat 3) SynEE_a
 
     set_inactive(*T1T3_recorders)
+
+    if tr.T2_spks_rec:
+        set_active(GExc_spks, GInh_spks)
     
     if tr.external_mode=='poisson':
         set_inactive(PInp_spks, PInp_rate)

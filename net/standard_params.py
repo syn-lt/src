@@ -166,6 +166,7 @@ syndynrec_npts = 10
 
 turnover_rec = 1
 spks_rec = 1
+T2_spks_rec = 0
 synee_a_nrecpoints = 10
 synei_a_nrecpoints = 10
 
