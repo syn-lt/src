@@ -1,17 +1,20 @@
 
+** About
+# Network simulation that was developed during my PhD. 
+Network simulation using Brian 2 and Pypet written to analyse the survivability of transient synapses of cortical neurons.
 
 ** Requirements
-To run the network simulation a Python 3 environment with Brian 2, Pypet and . Git is also required to be installed.
+To run the network simulation a Python 3 environment with Brian 2, and Pypet is required. Git also has to be installed.
 
 Any recent version of [[https://github.com/brian-team/brian2][Brian 2]] should work. However, to run very long simulations a fix discussed in [[https://github.com/brian-team/brian2/pull/1057][#1057]] is required.
 
-Below is a recommended installation routine setting up a virtualenv. You may 
+Below is an example installation routine for setting up a virtualenv (tested on Ubuntu 16.04 only).
 
 #+BEGIN_SRC sh
 #!/bin/sh
 
-virtualenv -p python3 /home/fh/env/synsrv
-source /home/fh/env/synsrv/bin/activate
+virtualenv -p python3 /home/$USER/env/synsrv
+source /home/$USER/env/synsrv/bin/activate
 
 # Brian 2 branch that fixes bug for long simulations
 pip install -e git+https://github.com/brian-team/brian2@355cbf98061f2ae4c4afdc1600f363c5d8c0979d#egg=Brian2
@@ -22,30 +25,26 @@ pip install elephant==0.6.0
 pip install tables==3.5.1
 pip install pypet==0.4.3
 
-# pip install gitdb2==2.0.5
-# pip install GitPython==2.1.11
-
 pip install GitPython
 #+END_SRC
 
 
 ** Installation
 
-Get the 
+Get the code from this repository including submodules with
 
 : git clone  --recurse-submodules https://github.com/synsrv/src_net
 
 
 
-
-
 ** Run a simulation
-To verify 
+To verify your installation, within ~src_net~ run
 
-# Run for example as
+#+BEGIN_SRC sh
+./run_test.sh -l tests/net_tests/test_standard_net/
+#+END_SRC
 
-# #+BEGIN_SRC 
-# ./run.sh 10 14 32GB
-# #+END_SRC
+This will create a directory ~tests/~ on the same level as ~src_net~ where the code is copied an executed.
 
-# where 10 is the number simultaneous runs, 14 is the number of cores requested on the cluster, and 32GB is the requested memory.
+
+
