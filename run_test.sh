@@ -1,6 +1,5 @@
 #!/bin/bash
 
-
 # 1 read out folder
 
 LOCAL_COMPUTE=false
@@ -8,14 +7,23 @@ DEBUG=false
 CLUSTER='x-men'
 TESTRUN='net-test'
 
-TESTDIR_FULL=$1
+while getopts "l" opt; do
+    case $opt in
+    l) LOCAL_COMPUTE=true ;;
+    \?) echo "error: option -$OPTARG is not implemented"; exit ;;
+    esac
+done
+
+# combine getopts with positional parameters, see
+# https://stackoverflow.com/questions/11742996
+
+TESTDIR_FULL=${@:$OPTIND:1}
 TESTDIR=$(basename $TESTDIR_FULL)
 
 CODEDIR=$(pwd);
 
 # use timestamp + TESTDIR as working dir name
 WDIR=$(date +"%y%m%d_%H%M%S")"_"$TESTDIR;
-
 
 
 # 2 copy to location with appropriate file name
