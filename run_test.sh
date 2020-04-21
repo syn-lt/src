@@ -50,30 +50,30 @@ else
 fi
 
 
-# cd ../tests/testing/$WDIR
+cd ../tests/testing/$WDIR
 
 
-# # 3 read out simulation set up (cores, memory etc...)
+# 3 read out simulation set up (cores, memory etc...)
 
-# source "./src/"$TESTDIR_FULL"simulation.config"
+source "./src/"$TESTDIR_FULL"simulation.config"
 
-# # echo $NPARSIM
-# # echo $NCORES
-# # echo $MEMGB
-
-
-# # 4 replace explored_params
-
-# cp "./src/"$TESTDIR_FULL"explored_params.py" ./src/net/
+# echo $NPARSIM
+# echo $NCORES
+# echo $MEMGB
 
 
-# # 5 start simulation through run_local with settings from 3)
+# 4 replace explored_params
 
-# rm -f nohup.out
+cp "./src/"$TESTDIR_FULL"explored_params.py" ./src/net/
 
-# nohup ./src/run_local.sh $WDIR $CODEDIR $NPARSIM \
-#                           $NCORES $MEMGB $LOCAL_COMPUTE \
-#                           $CLUSTER $TESTRUN $TESTDIR_FULL &
+
+# 5 start simulation through run_local with settings from 3)
+
+rm -f nohup.out
+
+nohup ./src/run_local.sh $WDIR $CODEDIR $NPARSIM \
+                          $NCORES $MEMGB $LOCAL_COMPUTE \
+                          $CLUSTER $TESTRUN $TESTDIR_FULL &
 
 
 
