@@ -52,12 +52,24 @@ TIMESTAMP=$(date +"%y%m%d_%H%M%S")$POSTFIX;
 
 mkdir -p ../running/$TIMESTAMP
 
-#rsync -a --exclude='*~' --exclude='.git' \
-rsync -a --exclude='*~' --exclude='analysis/' \
-      $CODEDIR/ ../running/$TIMESTAMP/src/
+if [[ -d ../analysis-dev/ ]]
+then
+    echo "Note: analysis-dev/ directory found." 
+    echo "Replacing analysis/ with analysis-dev/ in output folder."
 
-rsync -a --delete --exclude='*~' --exclude='__pycache__' \
-      $CODEDIR/../analysis-dev/ ../running/$TIMESTAMP/src/analysis
+    rsync -a --exclude='*~' --exclude='analysis/' \
+	  $CODEDIR/ ../tests/testing/$WDIR/src/
+
+    rsync -a --delete --exclude='*~' --exclude='__pycache__' \
+	  $CODEDIR/../analysis-dev/ ../tests/testing/$WDIR/src/analysis
+
+else
+    echo "Note: analysis-dev/ directory not found." 
+    echo "Proceeding without replacment."
+
+    rsync -a --exclude='*~' \
+	  $CODEDIR/ ../tests/testing/$WDIR/src/
+fi
 
 cd ../running/$TIMESTAMP
 
