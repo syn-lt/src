@@ -46,5 +46,16 @@ To verify your installation, within ~src_net~ run
 
 This will create a directory ~tests/~ on the same level as ~src_net~ where the code is copied an executed.
 
+** Explore parameters
+
+To run simulations exploring different parameter sets, create an ~explored_params.py~ in ~src_net/net/~, as for example found in any of the tests in ~net_tests/~. In the ~input_dict~ specify the parameter setting of your choice and the run simulation via
+
+#+BEGIN_SRC 
+./run.sh -l -n 2 -P "_two-concurrent-sims" -E
+#+END_SRC
+
+This will create ~running/~ and ~completed/~ on the same level as ~src_net/~. Once finished, the simulation directory is moved from ~running/~ to ~completed/~.
+
+
 
 
