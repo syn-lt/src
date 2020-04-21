@@ -45,6 +45,7 @@ fi
 
 
 CODEDIR=$(pwd);
+$SRCDIR=$(basename $CODEDIR)
 
 # use timestamp + POSTFIX as temporary folder name
 TIMESTAMP=$(date +"%y%m%d_%H%M%S")$POSTFIX;
@@ -58,17 +59,17 @@ then
     echo "Replacing analysis/ with analysis-dev/ in output folder."
 
     rsync -a --exclude='*~' --exclude='analysis/' \
-	  $CODEDIR/ ../tests/testing/$WDIR/src/
+	  $CODEDIR/ ../running/$TIMESTAMP/src/
 
     rsync -a --delete --exclude='*~' --exclude='__pycache__' \
-	  $CODEDIR/../analysis-dev/ ../tests/testing/$WDIR/src/analysis
+	  $CODEDIR/../analysis-dev/ ../running/$TIMESTAMP/src/analysis
 
 else
     echo "Note: analysis-dev/ directory not found." 
     echo "Proceeding without replacment."
 
     rsync -a --exclude='*~' \
-	  $CODEDIR/ ../tests/testing/$WDIR/src/
+	  $CODEDIR/ ../running/$TIMESTAMP/src/
 fi
 
 cd ../running/$TIMESTAMP
