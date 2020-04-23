@@ -45,7 +45,7 @@ fi
 
 
 CODEDIR=$(pwd);
-$SRCDIR=$(basename $CODEDIR)
+SRCDIR=$(basename $CODEDIR)
 
 # use timestamp + POSTFIX as temporary folder name
 TIMESTAMP=$(date +"%y%m%d_%H%M%S")$POSTFIX;
